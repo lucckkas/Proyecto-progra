@@ -47,10 +47,18 @@ def txt(texto):
 
 
 #nombres archivos
-tank1="tank1.png"
-tank2="tank2.png"
-mira1="canon1.png"
-mira2="canon2.png"
+tank1 = "tank1.png"
+tank2 = "tank2.png"
+tank3 = "tank3.png"
+tank4 = "tank4.png"
+tank5 = "tank5.png"
+tank6 = "tank6.png"
+mira1 = "canon1.png"
+mira2 = "canon2.png"
+mira3 = "canon3.png"
+mira4 = "canon4.png"
+mira5 = "canon5.png"
+mira6 = "canon6.png"
 
 
 # rutas archivos
@@ -92,11 +100,13 @@ largo_mitad = 640
 alto = 720
 
 grosor = 2
+
+viento = 10
 # tanke
-vida_tanke = 100
-balas_60mm = 3
+cantidad_tankes = 2
+balas_60mm = 10
 balas_perforantes = 10
-balas_105mm = 3
+balas_105mm = 10
 # bala dmg
 dagno_60mm = 30
 dagno_perforante = 40
