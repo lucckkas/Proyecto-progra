@@ -69,6 +69,7 @@ carpeta_imagenes = abrir(carpeta_archivos, "Imagenes")  # carpeta con todas las 
 
 carpeta_balas = abrir(carpeta_imagenes, "Balas")
 carpeta_explosiones = abrir(carpeta_imagenes, "Explosiones")
+carpeta_bandera = abrir(carpeta_imagenes, "Bandera")
 
 carpeta_tanke = abrir(carpeta_imagenes, "Tanke")  # carpeta con sub carpetas de los tankes
 carpeta_base = abrir(carpeta_tanke, "Base")
@@ -101,7 +102,7 @@ alto = 720
 
 grosor = 2
 
-viento = 10
+viento = 0
 # tanke
 cantidad_tankes = 2
 balas_60mm = 10

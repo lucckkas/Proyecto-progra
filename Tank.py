@@ -29,10 +29,10 @@ class Tank(pygame.sprite.Sprite):
         self.potencia = 30
         self.angle = 0
         self.disparable = True
-        self.inventario1 = 3
-        self.inventario2 = 10
-        self.inventario3 = 3
-        self.inventarioF = 3
+        self.inventario1 = datos.balas_60mm
+        self.inventario2 = datos.balas_perforantes
+        self.inventario3 = datos.balas_105mm
+        self.inventarioF = datos.balas_60mm
         self.life = 100
         self.cambia_angulo = 0
         self.cambia_potencia = 0
