@@ -101,10 +101,9 @@ alto = 720
 
 grosor = 2
 # tanke
-vida_tanke = 100
-balas_60mm = 3
+balas_60mm = 10
 balas_perforantes = 10
-balas_105mm = 3
+balas_105mm = 10
 # bala dmg
 dagno_60mm = 30
 dagno_perforante = 40
