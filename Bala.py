@@ -99,7 +99,7 @@ class Bala(pygame.sprite.Sprite):
                 self.coord_time = pygame.time.get_ticks()
 
             # formulas velocidad
-            self.velocidadH += datos.viento * vel/7  # la velocidad horizontal la aumento con el viento
+            self.velocidadH += datos.viento * vel/8  # la velocidad horizontal la aumento con el viento
             self.velocidadV = self.velocidadV - datos.GRAVEDAD_TIERRA * vel
 
             # rotacion

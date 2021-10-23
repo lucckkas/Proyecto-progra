@@ -4,6 +4,7 @@ import datos
 from menu import *
 import Terreno
 import Boton
+import Bandera
 from Bala60 import Bala60
 from BalaP import BalaP
 from Bala105 import Bala105
@@ -59,6 +60,9 @@ class Game():#Creación clase juego
         self.boton_reset = Boton.Boton("reset.png", [datos.tamagno_mapa[0]/2, 40], [200, 60])
         self.boton_salir = Boton.Boton("salir.png", [datos.tamagno_mapa[0]/2, 110], [200, 60])
 
+        #bandera
+        self.bandera = Bandera.Bandera([datos.tamagno_mapa[0]/4, 10])
+
     def game_loop(self): #Inicio loopeo 
         pygame.mixer.music.play()
         while self.playing: #Mientras siga jugando:
@@ -86,6 +90,7 @@ class Game():#Creación clase juego
             #dibujar botones
             self.boton_reset.dibujar(self.display)
             self.boton_salir.dibujar(self.display)
+            self.bandera.dibujar(self.display, pygame.time.get_ticks())
 
             # pruebas lineas en centro
             #self.mapa.check_pos(self.display, self.rojo, 560)
