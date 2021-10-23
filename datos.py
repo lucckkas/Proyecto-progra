@@ -47,10 +47,18 @@ def txt(texto):
 
 
 #nombres archivos
-tank1="tank1.png"
-tank2="tank2.png"
-mira1="canon1.png"
-mira2="canon2.png"
+tank1 = "tank1.png"
+tank2 = "tank2.png"
+tank3 = "tank3.png"
+tank4 = "tank4.png"
+tank5 = "tank5.png"
+tank6 = "tank6.png"
+mira1 = "canon1.png"
+mira2 = "canon2.png"
+mira3 = "canon3.png"
+mira4 = "canon4.png"
+mira5 = "canon5.png"
+mira6 = "canon6.png"
 
 
 # rutas archivos
