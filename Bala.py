@@ -86,8 +86,8 @@ class Bala(pygame.sprite.Sprite):
             self.detener()
         """
         if self.disparado:
-            vel = pygame.time.get_ticks() - self.temp  # esta variable representa el tiempo en las formulas de movimiento
-            vel = vel/150
+            vel = pygame.time.get_ticks() - self.temp
+            vel = vel/150 # esta variable representa el tiempo en las formulas de movimiento
             # fornulas posicion
             self.rect.centerx = self.posX + self.velocidad_inicialH * vel + 0.5 * datos.viento/5 * vel * vel
             self.rect.centery = self.posY - self.velocidad_inicialV * vel + 0.5 * datos.GRAVEDAD_TIERRA * vel * vel
