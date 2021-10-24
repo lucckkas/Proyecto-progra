@@ -64,10 +64,10 @@ class Game():  # Creación clase juego
         self.boton_salir = Boton.Boton("salir.png", [datos.tamagno_mapa[0] / 2, 110], [200, 60])
 
         # para saber cual tanque es controlado por usuario y cual por "IA"
-        cantidad_human = datos.cantidad_tankes - datos.cantidad_IA
+        self.cantidad_human = datos.cantidad_tankes - datos.cantidad_IA
         self.control_tankes = []
         self.IAs = []
-        for i in range(cantidad_human):
+        for i in range(self.cantidad_human):
             self.control_tankes.append(False)
         for i in range(datos.cantidad_IA):
             self.control_tankes.append(True)
@@ -167,6 +167,13 @@ class Game():  # Creación clase juego
         self.mapa.tanques[1].changeTurn()
 
     def check_events(self):  # Checkea que botones presiona el usuario
+        # disparo por "IA"
+        for i in range(datos.cantidad_IA):
+            j = i + self.cantidad_human
+            if self.mapa.tanques[j].turn and not self.mapa.tanques[j].bala.disparado:
+                if self.control_tankes[j]:  # si el tanque es controlado por "IA"
+                    self.mapa.tanques[j].dispararIA(self.IAs[i].disparar())
+
         for event in pygame.event.get():  # Muestra lo que ve el usuario en pantalla (in-game)
 
             if event.type == pygame.QUIT:  # Cuando presione la "X" cierra el juego y pygame
@@ -207,18 +214,11 @@ class Game():  # Creación clase juego
                 if event.key == pygame.K_SPACE:
                     # si es turno del 1 tanque
                     if self.mapa.tanques[0].turn and not self.mapa.tanques[0].bala.disparado:
-                        if self.control_tankes[0]:  # si el tanque es controlado por "IA"
-                            self.mapa.tanques[0].dispararIA()
-                        else:
-                            self.mapa.tanques[0].disparar()
+                        self.mapa.tanques[0].disparar()
 
                     # si es turno del 2 tanque
                     if self.mapa.tanques[1].turn and not self.mapa.tanques[1].bala.disparado:
-                        if self.control_tankes[1]:  # si el tanque es controlado por "IA"
-                            print(self.IAs[0].disparar())
-                            self.mapa.tanques[1].dispararIA(self.IAs[0].disparar())
-                        else:
-                            self.mapa.tanques[1].disparar()
+                        self.mapa.tanques[1].disparar()
 
                 if event.key == pygame.K_1:
                     if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:

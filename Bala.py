@@ -22,6 +22,7 @@ class Bala(pygame.sprite.Sprite):
         self.velocidadH = 0
         self.disparado = False
         self.ang_act = 0
+        self.temp = 0
 
         # guarda la imagen para no perder la calidad al rotar
         self.imagen_original = pygame.image.load(datos.abrir(datos.carpeta_balas, f"{tipo_bala}.png"))
@@ -60,8 +61,7 @@ class Bala(pygame.sprite.Sprite):
         ################################
 
     def disparar(self, angulo, potencia, posX, posY):  # coloca la bala y asigna su posicion y movimiento
-        posY = datos.tamagno_mapa[1] - posY  # para trabajar con la altura 0 como el suelo
-        self.rect.center = (posX, datos.tamagno_mapa[1] - posY)
+        self.rect.center = (posX, posY)
         self.coordinate.clear()
         self.coord_time = pygame.time.get_ticks()
         self.posY = posY
@@ -72,6 +72,7 @@ class Bala(pygame.sprite.Sprite):
         self.velocidadH = math.cos(trans_ang_rad(angulo)) * potencia
         self.disparado = True
         self.alturamaxima = (self.velocidadV * self.velocidadV) / (2 * datos.GRAVEDAD_TIERRA)
+        self.temp = pygame.time.get_ticks()
 
     def rotar(self, surface, angulo):  # rota surface en angulo y la centra
         bala_rotada = pygame.transform.rotozoom(surface, angulo, 1)
@@ -85,12 +86,11 @@ class Bala(pygame.sprite.Sprite):
             self.detener()
         """
         if self.disparado:
-            vel = 7 / datos.FPS  # esta variable representa el tiempo en las formulas de movimiento
+            vel = pygame.time.get_ticks() - self.temp  # esta variable representa el tiempo en las formulas de movimiento
+            vel = vel/150
             # fornulas posicion
-            self.posX += self.velocidadH * vel
-            self.rect.centerx = self.posX
-            self.posY = self.posY + self.velocidadV * vel - (1 / 2) * datos.GRAVEDAD_TIERRA * vel * vel
-            self.rect.centery = datos.tamagno_mapa[1] - self.posY
+            self.rect.centerx = self.posX + self.velocidadH * vel
+            self.rect.centery = self.posY - self.velocidadV * vel + (1 / 2) * datos.GRAVEDAD_TIERRA * vel * vel
 
             # cada 50 ms guarda la posicion de la bala en coordinate
             tick = pygame.time.get_ticks()
@@ -98,18 +98,14 @@ class Bala(pygame.sprite.Sprite):
                 self.coordinate.append((self.rect.centerx, self.rect.centery))
                 self.coord_time = pygame.time.get_ticks()
 
-            # formulas velocidad
-            self.velocidadH += datos.viento * vel/8  # la velocidad horizontal la aumento con el viento
-            self.velocidadV = self.velocidadV - datos.GRAVEDAD_TIERRA * vel
-
             # rotacion
             if self.velocidadH < 0:  # si va hacia la izquierda
-                self.ang_act = trans_ang_grad(math.atan((self.velocidadV / self.velocidadH))) + 180
+                self.ang_act = trans_ang_grad(math.atan(((self.velocidadV - datos.GRAVEDAD_TIERRA * vel) / self.velocidadH))) + 180
                 bala_rotada, bala_rotada_pos = self.rotar(self.imagen_original, self.ang_act)
                 self.image = bala_rotada
                 self.rect = bala_rotada_pos
             else:
-                self.ang_act = trans_ang_grad(math.atan((self.velocidadV / self.velocidadH)))
+                self.ang_act = trans_ang_grad(math.atan(((self.velocidadV - datos.GRAVEDAD_TIERRA * vel) / self.velocidadH)))
                 bala_rotada, bala_rotada_pos = self.rotar(self.imagen_original, self.ang_act)
                 self.image = bala_rotada
                 self.rect = bala_rotada_pos
