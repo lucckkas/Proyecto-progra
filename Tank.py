@@ -244,6 +244,11 @@ class Tank(pygame.sprite.Sprite):
             self.bala.disparar(self.angle, self.potencia, self.mira.rect.centerx + self.offsetx(),
                                self.mira.rect.centery - self.offsety())
 
+    def dispararIA(self, angulo_potencia):
+        self.angle = angulo_potencia[0]
+        self.potencia = angulo_potencia[1]
+        self.disparar()
+
     # Retornar valores del tanque
     def getAngle(self):
         return self.angle
