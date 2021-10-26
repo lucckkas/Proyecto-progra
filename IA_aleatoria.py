@@ -10,5 +10,5 @@ class IA_aleatoria():
         self.angulo = r.randint(10, 170)
         while 85 < self.angulo < 95:
             self.angulo = r.randint(10, 170)
-        self.potencia = r.randint(40, 80)
+        self.potencia = r.randint(40, 100)
         return [self.angulo, self.potencia]
