@@ -452,6 +452,13 @@ class Terreno:
       
 
 ######    funcion de generar tanques en el terreno ##############
+  def crear_tanque_pruebas(self):
+      n_pos = 10
+
+      Tanque = Tanke(d.tanque(1), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(1))
+      self.tanques.append(Tanque)
+      self.tanques.append(Tanque)
+
 
   def crear_tanque_pos(self):  # funcion usada para generar tanques en el terreno limitada a solo 2 tanques
 
