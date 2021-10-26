@@ -1,8 +1,6 @@
 import pygame
 import random as r
-import Bala
 from Tanke import Tanke
-import time
 import datos as d
 
 class Terreno:

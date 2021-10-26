@@ -233,16 +233,33 @@ class Tank(pygame.sprite.Sprite):
         if self.turn and self.disparable:
             # agregar la bala a los sprites visibles
             self.sprites.add(self.bala)
-            if (self.bala.tipo == "60mm.png" and self.inventario1 > 0):
+            if self.bala.tipo == "60mm.png" and self.inventario1 > 0:
                 self.inventario1 += -1
-            if (self.bala.tipo == "perforante.png" and self.inventario2 > 0):
+            elif self.bala.tipo == "perforante.png" and self.inventario2 > 0:
                 self.inventario2 += -1
-            if (self.bala.tipo == "105mm.png" and self.inventario3 > 0):
+            elif self.bala.tipo == "105mm.png" and self.inventario3 > 0:
                 self.inventario3 += -1
 
             # posicionar la bala en la mira usadando un offset en X y en Y
             self.bala.disparar(self.angle, self.potencia, self.mira.rect.centerx + self.offsetx(),
                                self.mira.rect.centery - self.offsety())
+
+    def dispararIA(self, angulo_potencia):
+        # TODO: me gustaria que las balas se elijan de forma "inteligente" y no en orden
+        if self.inventarioF == 0:
+            if self.inventario1 > 0:
+                self.bala = Bala60()
+
+            elif self.inventario2 > 0:
+                self.bala = BalaP()
+
+            elif self.inventario3 > 0:
+                self.bala = Bala105()
+
+        if self.inventarioF is not 0:
+            self.angle = angulo_potencia[0]
+            self.potencia = angulo_potencia[1]
+            self.disparar()
 
     # Retornar valores del tanque
     def getAngle(self):
