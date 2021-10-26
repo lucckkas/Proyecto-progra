@@ -17,7 +17,7 @@ class Terreno:
     #forma 5 = 3 montañas 2 cañones
     #forma 6 = 2 motañas disparejas 2 cañones
     
-  forma_terreno = r.randint(3,6)
+  forma_terreno = r.randint(1,6)
   
   #lista de tanques en el mapa
   tanques = []

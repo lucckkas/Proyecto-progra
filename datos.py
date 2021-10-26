@@ -102,7 +102,7 @@ alto = 720
 
 grosor = 2
 
-viento = -10
+viento = 10
 # tanke
 cantidad_tankes = 2
 balas_60mm = 10
