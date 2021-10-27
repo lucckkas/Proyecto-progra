@@ -1,13 +1,12 @@
-import pygame, math
+import math
+import pygame
 import datos
 from Bala import Bala
-from Mira import Mira
-from IMG import Img
 from Explosion import Explosion
-from Bala60 import Bala60
-from BalaP import  BalaP
-from Bala105 import Bala105
-TAM_MAPA = 1280
+from IMG import Img
+from Mira import Mira
+
+TAM_MAPA = datos.tamagno_mapa[0]
 
 
 # transformar de grados a radianes
@@ -16,9 +15,9 @@ def trans_ang_rad(ang):
 
 
 class Tank(pygame.sprite.Sprite):
-    def __init__(self, Imagen, posX, posY, miraImg):
+    def __init__(self, imagen, posX, posY, miraImg):
         super().__init__()
-        self.image = pygame.image.load(Imagen)
+        self.image = pygame.image.load(imagen)
         # borrar fonndo imagen
         self.image.set_colorkey(datos.BLANCO)
         self.rect = self.image.get_rect()
@@ -26,7 +25,7 @@ class Tank(pygame.sprite.Sprite):
         self.rect.centery = posY
         self.height = self.image.get_height()
         self.width = self.image.get_width()
-        self.potencia = 30
+        self.potencia = 40
         self.angle = 0
         self.disparable = True
         self.inventario1 = datos.balas_60mm
@@ -37,8 +36,9 @@ class Tank(pygame.sprite.Sprite):
         self.cambia_angulo = 0
         self.cambia_potencia = 0
         self.wLife = 200
-        self.bala = Bala60()
+        self.bala = Bala()
         self.explosion = Explosion()
+        self.kills = 0
 
         # definir el texto en pantalla (potencia) como un sprite para poder manejarlo de manera mas rapida
         self.txtImg = datos.txt("potencia")
@@ -50,29 +50,29 @@ class Tank(pygame.sprite.Sprite):
                        datos.num(7), datos.num(8), datos.num(9)]
         # colocar el texto dependiendo donde esta el el tanque
         if self.rect.centerx > 640:
-            # crear una imagen del texto y de la centena para poder obtener sus anchos y crearlos en la posicion adecuada
+            # crear imagen del texto y de la centena para poder obtener sus anchos y crearlos en la posicion adecuada
             # con un calculo que use dichas variables y el tamaño de la pantalla
             self.imgPower = Img(0, 50, self.txtImg)
             width_leter = self.imgPower.getWidth()
             self.cent = Img(0, 50, self.numImg[2])
             width_num = self.cent.getWidth() + 1
             # volver a crear las imagenes solo que ahora con su posicion correcta
-            self.imgPower = Img((TAM_MAPA - (width_leter / 2) - (width_num) * 3), 25, self.txtImg)
-            self.cent = Img((TAM_MAPA - (width_num) * 3), 25, self.numImg[0])
-            self.dec = Img((TAM_MAPA - (width_num) * 2), 25, self.numImg[2])
-            self.uni = Img((TAM_MAPA - (width_num)), 25, self.numImg[2])
+            self.imgPower = Img((TAM_MAPA - (width_leter / 2) - width_num * 3), 25, self.txtImg)
+            self.cent = Img((TAM_MAPA - width_num * 3), 25, self.numImg[0])
+            self.dec = Img((TAM_MAPA - width_num * 2), 25, self.numImg[2])
+            self.uni = Img((TAM_MAPA - width_num), 25, self.numImg[2])
             # poner la altura en pantalla
-            self.imgAltura = Img((TAM_MAPA - (width_leter / 2) - (width_num) * 4), 50, self.heightImg)
-            self.mil = Img((TAM_MAPA - (width_num) * 4), 50, self.numImg[0])
-            self.cent1 = Img((TAM_MAPA - (width_num) * 3), 50, self.numImg[0])
-            self.dec1 = Img((TAM_MAPA - (width_num) * 2), 50, self.numImg[2])
-            self.uni1 = Img((TAM_MAPA - (width_num)), 50, self.numImg[2])
+            self.imgAltura = Img((TAM_MAPA - (width_leter / 2) - width_num * 4), 50, self.heightImg)
+            self.mil = Img((TAM_MAPA - width_num * 4), 50, self.numImg[0])
+            self.cent1 = Img((TAM_MAPA - width_num * 3), 50, self.numImg[0])
+            self.dec1 = Img((TAM_MAPA - width_num * 2), 50, self.numImg[2])
+            self.uni1 = Img((TAM_MAPA - width_num), 50, self.numImg[2])
             # poner la cuanta  distancia recorre  en pantalla
-            self.imgDistan = Img((TAM_MAPA - (width_leter / 2) - (width_num) * 4), 75, self.distanImg)
-            self.mil2 = Img((TAM_MAPA - (width_num) * 4), 75, self.numImg[0])
-            self.cent2 = Img((TAM_MAPA - (width_num) * 3), 75, self.numImg[0])
-            self.dec2 = Img((TAM_MAPA - (width_num) * 2), 75, self.numImg[2])
-            self.uni2 = Img((TAM_MAPA - (width_num)), 75, self.numImg[2])
+            self.imgDistan = Img((TAM_MAPA - (width_leter / 2) - width_num * 4), 75, self.distanImg)
+            self.mil2 = Img((TAM_MAPA - width_num * 4), 75, self.numImg[0])
+            self.cent2 = Img((TAM_MAPA - width_num * 3), 75, self.numImg[0])
+            self.dec2 = Img((TAM_MAPA - width_num * 2), 75, self.numImg[2])
+            self.uni2 = Img((TAM_MAPA - width_num), 75, self.numImg[2])
             #
             self.inventario = Img(TAM_MAPA - width_leter / 2 - width_num * 4, 100, self.invenImg)
             self.balatip = self.bala.tipo
@@ -116,11 +116,9 @@ class Tank(pygame.sprite.Sprite):
 
             self.posvidaX = 0
             self.posvidaY = 125
-        self.turn = True
         self.alive = True
         # crear la mira en su posicion correspondiente al centro en x y en su posicion y correspondiente
         self.mira = Mira(self.rect.x + self.width / 2, self.rect.y + self.height / 4.5, miraImg)
-        self.bala = Bala60()
         # crear grupo donde estaran los sprites a dibujar
         self.sprites = pygame.sprite.Group()
 
@@ -153,7 +151,8 @@ class Tank(pygame.sprite.Sprite):
 
         self.mira.rect.centery = self.rect.centery - self.height / 4
         self.mira.rect.centerx = self.rect.centerx
-        # calcular el nuemero de la centena la decena y la unidad para usarlo como indice en las imagenes de dichos sprites de la potencia
+        # calcular el nuemero de la centena la decena y la unidad
+        # para usarlo como indice en las imagenes de dichos sprites de la potencia
         centena = int(self.potencia // 100)
         decena = int((self.potencia % 100) // 10)
         unidad = int(((self.potencia % 100) % 10))
@@ -170,13 +169,13 @@ class Tank(pygame.sprite.Sprite):
         decena2 = int(((math.fabs(self.bala.posxInicio - self.bala.posX) % 1000) % 100) // 10)
         unidad2 = int(((math.fabs(self.bala.posxInicio - self.bala.posX) % 100) % 10))
         # calculo inventario
-        if (self.bala.tipo == "60mm.png"):
+        if self.bala.tipo == "60mm.png":
             self.inventarioF = self.inventario1
-        if (self.bala.tipo == "perforante.png"):
+        if self.bala.tipo == "perforante.png":
             self.inventarioF = self.inventario2
-        if (self.bala.tipo == "105mm.png"):
+        if self.bala.tipo == "105mm.png":
             self.inventarioF = self.inventario3
-        if (self.inventarioF == 0):
+        if self.inventarioF == 0:
             self.disparable = False
         else:
             self.disparable = True
@@ -222,7 +221,7 @@ class Tank(pygame.sprite.Sprite):
         for c in self.bala.coordinate:
             pygame.draw.circle(pantalla, datos.AZUL, c, 2)
         # actualizar posicion de la bala si esta esta visible
-        if (self.sprites.has(self.bala)):
+        if self.sprites.has(self.bala):
             self.bala.update()
 
         # dibujar los sprites que esten en el grupo
@@ -230,7 +229,7 @@ class Tank(pygame.sprite.Sprite):
 
     def disparar(self):
         # disparar la bala dependiendo desde la punta de la mira
-        if self.turn and self.disparable:
+        if self.disparable:
             # agregar la bala a los sprites visibles
             self.sprites.add(self.bala)
             if self.bala.tipo == "60mm.png" and self.inventario1 > 0:
@@ -248,13 +247,21 @@ class Tank(pygame.sprite.Sprite):
         # TODO: me gustaria que las balas se elijan de forma "inteligente" y no en orden
         if self.inventarioF == 0:
             if self.inventario1 > 0:
-                self.bala = Bala60()
+                self.bala = Bala()
+                self.inventarioF = self.inventario1
 
             elif self.inventario2 > 0:
-                self.bala = BalaP()
+                self.bala = Bala("perforante")
+                self.inventarioF = self.inventario2
 
             elif self.inventario3 > 0:
-                self.bala = Bala105()
+                self.bala = Bala("105mm")
+                self.inventarioF = self.inventario3
+
+            if self.inventarioF == 0:
+                self.disparable = False
+            else:
+                self.disparable = True
 
         if self.inventarioF is not 0:
             self.angle = angulo_potencia[0]
@@ -289,15 +296,6 @@ class Tank(pygame.sprite.Sprite):
         # calcular la la posicion Y dependiendo del angulo
         return int(math.sin(trans_ang_rad(self.angle)) * (self.mira.getWidht() / 2))
 
-    def changeTurn(self):
-
-        if self.turn == True:
-            self.bala.disparado = False
-            self.turn = False
-        else:
-            self.bala.disparado = False
-            self.turn = True
-
     # definir la interaccion con las teclas izq y der alteran el angulo y up y down alteran la potencia
     def izq_apretar(self):
         self.cambia_angulo = 1
@@ -326,10 +324,10 @@ class Tank(pygame.sprite.Sprite):
     ###############################
     # cambiar el angulo y la potencia ademas de limitarlas a un rango
     def mover_angulo(self):
-        if (self.angle < 0):
+        if self.angle < 0:
             self.angle = 0
 
-        elif (self.angle > 180):
+        elif self.angle > 180:
             self.angle = 180
 
         else:
@@ -337,9 +335,9 @@ class Tank(pygame.sprite.Sprite):
 
     def cambio_potencia(self):
 
-        if (self.potencia < 10):
+        if self.potencia < 10:
             self.potencia = 10
-        elif (self.potencia > 150):
+        elif self.potencia > 150:
             self.potencia = 150
         else:
             self.potencia += self.cambia_potencia
@@ -349,3 +347,8 @@ class Tank(pygame.sprite.Sprite):
 
     def actualiza_tanques(self, nuevo_x):
         self.rect.centery = nuevo_x
+
+    def tiene_balas(self):
+        if self.inventarioF == 0:
+            return False
+        return True

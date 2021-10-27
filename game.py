@@ -6,14 +6,12 @@ import Terreno
 import Boton
 import Bandera
 import IA_aleatoria
-from Bala60 import Bala60
-from BalaP import BalaP
-from Bala105 import Bala105
+from Bala import Bala
 from IMG import Img
 from Bala import Bala
 
 
-class Game():  # Creación clase juego
+class Game:  # Creación clase juego
 
     def __init__(self):
 
@@ -21,14 +19,18 @@ class Game():  # Creación clase juego
         # limitar FPS
         self.clock = pygame.time.Clock()
 
-        ### crear terreno ###
+        # sistema turnos
+        self.turno_act = 0
+        self.turnos = []
+        for i in range(datos.cantidad_tankes):
+            self.turnos.append(i)
+
+        # -----------crear terreno-----------
         self.mapa = Terreno.Terreno()
         self.mapa.crea_terreno()
 
         self.mapa.crear_tanque_pos()
         self.mapa.crear_tanque_pos()
-        # definir que solo uno no podra tirar
-        self.mapa.tanques[1].changeTurn()
 
         self.running, self.playing = True, False  # Definición variables para inicializacion de juego
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False  # Control de teclas
@@ -72,6 +74,9 @@ class Game():  # Creación clase juego
             self.control_tankes.append(True)
             self.IAs.append(IA_aleatoria.IA_aleatoria())
 
+        self.ultimo_tiro = 0  # lleva el tiempo para limitar que tan seguido disparan
+        self.total_balas = (datos.cantidad_tankes * (datos.balas_60mm + datos.balas_perforantes + datos.balas_105mm))
+
         # bandera
         self.bandera = Bandera.Bandera([datos.tamagno_mapa[0] / 4, 10])
 
@@ -83,7 +88,7 @@ class Game():  # Creación clase juego
             if self.START_KEY:
                 self.playing = False
 
-            if (self.mapa.fin):
+            if self.mapa.fin:
                 break
 
             self.display.fill(datos.BLANCO)  # Rellena el canvas de color blanco
@@ -92,13 +97,12 @@ class Game():  # Creación clase juego
             self.mapa.dibujar_terreno(self.display, datos.NEGRO)
 
             # imprimir empate si es que es el caso
-            if (self.mapa.tanques[1].inventario1 == 0 and self.mapa.tanques[1].inventario2 == 0 and self.mapa.tanques[
-                1].inventario3 == 0 and self.mapa.tanques[0].life > 0 and self.mapa.tanques[1].life > 0 and
-                    self.mapa.tanques[1].bala.disparado == False):
+            if self.total_balas == 0:
                 empateI = Img(datos.tamagno_mapa[0] / 2, datos.tamagno_mapa[1] / 2,
                               datos.abrir(datos.carpeta_texto, "empate.png"))
                 self.display.blit(empateI.image, (datos.tamagno_mapa[0] / 2 - empateI.getWidth() / 2,
                                                   datos.tamagno_mapa[1] / 2 + empateI.getHeight() / 2))
+
             # dibujar tanques
             self.mapa.dibujar_tanques(self.display)
             # dibujar botones
@@ -126,51 +130,48 @@ class Game():  # Creación clase juego
             """
 
             # destruir terreno
-            self.mapa.destruir_terreno(self.display)
+            self.mapa.destruir_terreno()
 
             # actualizar posision tanque
             self.mapa.actualiza_postanque()
 
-            # colicion de balas
-
-            # colicion tank_bullet
-            # self.mapa.colicion_tank()
-
-            #For definitivo poner dentro todas las mapa.tanques
-
+            # For definitivo poner dentro todas las mapa.tanques
             for i in self.mapa.tanques:
                 self.mapa.colicion_bala(i)
                 i.mover_angulo()
                 i.cambio_potencia()
                 for j in self.mapa.tanques:
-                    self.mapa.colisionSprite(i, j.bala, self.greatSound,self.hellSound)
-
+                    self.mapa.colisionSprite(i, j.bala, self.greatSound, self.hellSound)
 
             self.window.blit(self.display, (0, 0))  # Alinea display y window -no borrar-
-
-
 
             pygame.display.update()  # Mueve fisicamente la imagen a la pantalla
             self.reset_keys()  # Llamado a funcion que resetea los controles
             self.clock.tick(datos.FPS)
 
+            # disparo por "IA"
+            if self.turno_act >= self.cantidad_human:
+                if not self.mapa.tanques[self.turno_act].bala.disparado\
+                        and pygame.time.get_ticks() - self.ultimo_tiro > 1000:  # tiempo entre disparos
+                    self.mapa.tanques[self.turno_act].dispararIA(
+                        self.IAs[self.turno_act - self.cantidad_human].disparar())
+                    self.turnos.remove(self.turno_act)
+                    if len(self.turnos) == 0:
+                        self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
+                    self.turno_act = self.turnos[0]
+                    self.ultimo_tiro = pygame.time.get_ticks()
+                    self.total_balas -= 1
+
             # reinicio del mundo
         self.mapa.fin = False
         self.mapa.alturas = []
         self.mapa.crea_terreno()
-        self.mapa.matar_tanque(1)
-        self.mapa.matar_tanque(0)
+        for i in range(datos.cantidad_tankes):
+            self.mapa.matar_tanque(0)
         self.mapa.crear_tanque_pos()
         self.mapa.crear_tanque_pos()
-        self.mapa.tanques[1].changeTurn()
 
     def check_events(self):  # Checkea que botones presiona el usuario
-        # disparo por "IA"
-        for i in range(datos.cantidad_IA):
-            j = i + self.cantidad_human
-            if self.mapa.tanques[j].turn and not self.mapa.tanques[j].bala.disparado:
-                if self.control_tankes[j]:  # si el tanque es controlado por "IA"
-                    self.mapa.tanques[j].dispararIA(self.IAs[i].disparar())
 
         for event in pygame.event.get():  # Muestra lo que ve el usuario en pantalla (in-game)
 
@@ -180,7 +181,6 @@ class Game():  # Creación clase juego
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                IA_aleatoria.mezclar_lista(6)
                 if self.boton_reset.click(pygame.mouse.get_pos()):
                     self.START_KEY = True
 
@@ -203,7 +203,7 @@ class Game():  # Creación clase juego
                 if event.key == pygame.K_UP:
                     self.UP_KEY = True
 
-                ##########   teclas para hacer pruebas de funcionamiento  ###############
+                # --------------------teclas para hacer pruebas de funcionamiento------------------------
                 if event.key == pygame.K_n:
                     self.mapa.crear_tanque_pos()  # actualizar despues
 
@@ -211,87 +211,82 @@ class Game():  # Creación clase juego
                     self.mapa.matar_tanque(0)
 
                 if event.key == pygame.K_SPACE:
-                    # si es turno del 1 tanque
-                    if self.mapa.tanques[0].turn and not self.mapa.tanques[0].bala.disparado:
-                        self.mapa.tanques[0].disparar()
+                    if self.turno_act < self.cantidad_human:
+                        if (not self.mapa.tanques[self.turno_act].bala.disparado
+                                and self.mapa.tanques[self.turno_act].tiene_balas())\
+                                and pygame.time.get_ticks() - self.ultimo_tiro > 1000:  # para limitar que tan rapido pueden disparar
 
-                    # si es turno del 2 tanque
-                    if self.mapa.tanques[1].turn and not self.mapa.tanques[1].bala.disparado:
-                        self.mapa.tanques[1].disparar()
+                            self.mapa.tanques[self.turno_act].disparar()
+                            self.turnos.remove(self.turno_act)
+                            if len(self.turnos) == 0:
+                                self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
+                            self.turno_act = self.turnos[0]
+                            self.ultimo_tiro = pygame.time.get_ticks()
+                            self.total_balas -= 1
 
                 if event.key == pygame.K_1:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].bala = Bala60()
-                        self.bala1Sound.play()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].bala = Bala60()
-                        self.bala1Sound.play()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].bala = Bala()
+                            self.bala1Sound.play()
 
                 if event.key == pygame.K_2:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].bala = BalaP()
-                        self.bala2Sound.play()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].bala = BalaP()
-                        self.bala2Sound.play()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].bala = Bala("perforante")
+                            self.bala2Sound.play()
 
                 if event.key == pygame.K_3:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].bala = Bala105()
-                        self.bala3Sound.play()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].bala = Bala105()
-                        self.bala3Sound.play()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].bala = Bala("105mm")
+                            self.bala3Sound.play()
 
                 # mover tanque 1
                 # angulo
 
                 if event.key == pygame.K_LEFT:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].izq_apretar()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].izq_apretar()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].izq_apretar()
+
                 if event.key == pygame.K_RIGHT:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].der_apretar()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].der_apretar()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].der_apretar()
+
                 # potencia
                 if event.key == pygame.K_UP:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].up_apretar()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].up_apretar()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].up_apretar()
 
                 if event.key == pygame.K_DOWN:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].down_apretar()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].down_apretar()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].down_apretar()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].izq_soltar()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].izq_soltar()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].izq_soltar()
+
                 if event.key == pygame.K_RIGHT:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].der_soltar()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].der_soltar()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].der_soltar()
+
                 # potencia
                 if event.key == pygame.K_UP:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].up_soltar()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].up_soltar()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].up_soltar()
 
                 if event.key == pygame.K_DOWN:
-                    if self.mapa.tanques[0].turn and self.mapa.tanques[0].bala.disparado == False:
-                        self.mapa.tanques[0].down_soltar()
-                    if self.mapa.tanques[1].turn and self.mapa.tanques[1].bala.disparado == False:
-                        self.mapa.tanques[1].down_soltar()
+                    if self.turno_act < self.cantidad_human:
+                        if not self.mapa.tanques[self.turno_act].bala.disparado:
+                            self.mapa.tanques[self.turno_act].down_soltar()
 
     def reset_keys(self):  # Resetea los controles
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
@@ -304,5 +299,3 @@ class Game():  # Creación clase juego
         text_rect.center = (x, y)  # Centra la imagen del rectangulo
         self.display.blit(text_surface,
                           text_rect)  # Pone el rectangulo con la imagen que contiene el texto en la imagen
-
-
