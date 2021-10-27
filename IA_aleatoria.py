@@ -1,6 +1,22 @@
 import random as r
 
 
+def mezclar_lista(njugadores):
+    aux = []
+    turnos = []
+
+    for i in range(njugadores):
+        aux.append(i+1)
+
+    for i in range(len(aux)):
+        nuevo_turno = r.randint(0, len(aux) - 1)
+
+        turnos.append(aux[nuevo_turno])
+        aux.remove(aux[nuevo_turno])
+
+    return turnos
+
+
 class IA_aleatoria():
     def __init__(self):
         self.angulo = 0
