@@ -18,7 +18,6 @@ class Game():  # Creación clase juego
     def __init__(self):
 
         pygame.init()  # Inicio de PYGAME en archivo local
-
         # limitar FPS
         self.clock = pygame.time.Clock()
 
@@ -36,7 +35,7 @@ class Game():  # Creación clase juego
         self.DISPLAY_W, self.DISPLAY_H = datos.tamagno_mapa  # Definicion altura y ancho del canvas
         self.display = pygame.Surface(
             (self.DISPLAY_W, self.DISPLAY_H))  # Creacion canvas, recibe atura y ancho como argumentos
-        self.window = pygame.display.set_mode(((self.DISPLAY_W, self.DISPLAY_H)))
+        self.window = pygame.display.set_mode((self.DISPLAY_W, self.DISPLAY_H))
         self.font_name = datos.abrir(datos.carpeta_archivos,
                                      "8BITWONDERNominal.ttf")  # Definición tipo de fuente (8-bit)
         self.main_menu = MainMenu(self)
@@ -181,6 +180,7 @@ class Game():  # Creación clase juego
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                IA_aleatoria.mezclar_lista(6)
                 if self.boton_reset.click(pygame.mouse.get_pos()):
                     self.START_KEY = True
 

@@ -399,18 +399,18 @@ class Terreno:
       balax = bala.getPos_X()
       balay = bala.getPos_Y()
 
-      if((tankX-offsetX<=balax and balax<tankX+offsetX) and (tankY-offsetY<=balay and balay<=tankY+offsetY) and cont==0):
+      if (tankX - offsetX <= balax < tankX + offsetX) and (tankY - offsetY <= balay <= tankY + offsetY) and cont is 0:
           self.tanques[0].changeTurn()
           self.tanques[1].changeTurn()
           tank.explosion.iniciar(bala.getPos(), bala.get_diametro())
           bala.detener()
           tank.updateLife(bala.dagno)
-          if(tank.life<=0):
+          if tank.life <= 0:
             sonidoDead.play()
-            self.fin=True
+            self.fin = True
           else:
               sonidoIm.play()
-          cont+=1
+          cont += 1
 
 ######    funciones que cambian el terreno    ###################
 
