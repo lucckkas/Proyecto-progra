@@ -17,7 +17,7 @@ class Terreno:
     #forma 5 = 3 montañas 2 cañones
     #forma 6 = 2 motañas disparejas 2 cañones
     
-  forma_terreno = r.randint(3,6)
+  forma_terreno = r.randint(1,6)
   
   #lista de tanques en el mapa
   tanques = []
@@ -288,12 +288,12 @@ class Terreno:
 
   # funcion para obtener posicion eje x aleatorea #
   def posiscion_x_alazar(self):
-      x = r.randint(0, 639)
+      x = r.randint(0, d.largo_mitad-1)
       return x
   
     
   def check_pos(self,screen,color,i):
-      pygame.draw.line(screen,color,(i,720),(i,0),2)     #usado para ver posicion en mapa al darle un punto
+      pygame.draw.line(screen,color,(i,d.alto),(i,0),2)     #usado para ver posicion en mapa al darle un punto
 
   def chech_largo(self,screen,color,i,x):                #usado para revisar las distancias entre los tanques
       pygame.draw.line(screen,color,(i,x),(i- d.largo_mitad,x),2)
@@ -304,7 +304,7 @@ class Terreno:
   def dibujar_terreno(self, screen, color):              #funcion usada para dibujar el terreno
     i = 0
     for palos in self.alturas:
-        pygame.draw.line(screen,color,(i,720),(i,palos),d.grosor)
+        pygame.draw.line(screen,color,(i,d.alto),(i,palos),d.grosor)
         i = i+2
 
         ## comentario dibujar_terreno ##
@@ -348,7 +348,7 @@ class Terreno:
           tanque.explosion.iniciar(tanque.bala.getPos(), tanque.bala.get_diametro())
           tanque.bala.detener()
 
-      if (posx >= 639 ):
+      if (posx >= d.largo_mitad-1 ):
           print("colicion lado derecho")
 
           self.tanques[0].changeTurn()
@@ -452,15 +452,19 @@ class Terreno:
       
 
 ######    funcion de generar tanques en el terreno ##############
+  def crear_tanque_pruebas(self):
+      n_pos = 10
+
+      Tanque = Tanke(d.tanque(1), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(1))
+      self.tanques.append(Tanque)
+      self.tanques.append(Tanque)
+
 
   def crear_tanque_pos(self):  # funcion usada para generar tanques en el terreno limitada a solo 2 tanques
 
       if (len(self.tanques) == 0):
           n_pos = self.posiscion_x_alazar()
           print(n_pos)
-
-          while (n_pos > 280 and n_pos < 360):  # evita que se genere muy al centro
-              n_pos = self.posiscion_x_alazar()
 
           if len(self.tanques) == 0:
               Tanque = Tanke(d.tanque(1), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(1))
@@ -473,14 +477,14 @@ class Terreno:
           n_pos = self.posiscion_x_alazar()
 
           while (True):  # ciclo que evita que se generen tanques muy cerca (mas de la mitad de terreno de diferencia)
-              if not (((self.tanques[0].rect.centerx) // 2) - 320 < n_pos < (
-                      (self.tanques[0].rect.centerx) // 2) + 320):
+              if not (((self.tanques[0].rect.centerx) // 2) - d.tamagno_mapa[0]//(2*d.cantidad_tankes) < n_pos < (
+                      (self.tanques[0].rect.centerx) // 2) + d.tamagno_mapa[0]//(2*d.cantidad_tankes)):
                   break
 
               else:
                   n_pos = self.posiscion_x_alazar()
                   print("pos nueva", n_pos)
-                  print("pos tanque", (self.tanques[0].rect.centerx + 320) // 2)
+                  print("pos tanque", (self.tanques[0].rect.centerx + d.tamagno_mapa[0]//(2*d.cantidad_tankes) // 2))
                   print("pos error")
 
           if len(self.tanques) == 0:
@@ -490,6 +494,8 @@ class Terreno:
               Tanque = Tanke(d.tanque(2), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(2))
           self.tanques.append(Tanque)
           print("nueva pos encontrada")
+
+
 
       else:
           print("tanques limitados a 2 para la entrega")

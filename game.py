@@ -132,24 +132,23 @@ class Game():  # Creación clase juego
             self.mapa.actualiza_postanque()
 
             # colicion de balas
-            self.mapa.colicion_bala(self.mapa.tanques[0])
-            self.mapa.colicion_bala(self.mapa.tanques[1])
 
             # colicion tank_bullet
             # self.mapa.colicion_tank()
-            self.mapa.colisionSprite(self.mapa.tanques[0], self.mapa.tanques[0].bala, self.greatSound, self.hellSound)
-            self.mapa.colisionSprite(self.mapa.tanques[0], self.mapa.tanques[1].bala, self.greatSound, self.hellSound)
-            self.mapa.colisionSprite(self.mapa.tanques[1], self.mapa.tanques[0].bala, self.greatSound, self.hellSound)
-            self.mapa.colisionSprite(self.mapa.tanques[1], self.mapa.tanques[1].bala, self.greatSound, self.hellSound)
+
+            #For definitivo poner dentro todas las mapa.tanques
+
+            for i in self.mapa.tanques:
+                self.mapa.colicion_bala(i)
+                i.mover_angulo()
+                i.cambio_potencia()
+                for j in self.mapa.tanques:
+                    self.mapa.colisionSprite(i, j.bala, self.greatSound,self.hellSound)
+
 
             self.window.blit(self.display, (0, 0))  # Alinea display y window -no borrar-
 
-            # mover tanques
-            self.mapa.tanques[0].mover_angulo()
-            self.mapa.tanques[0].cambio_potencia()
 
-            self.mapa.tanques[1].mover_angulo()
-            self.mapa.tanques[1].cambio_potencia()
 
             pygame.display.update()  # Mueve fisicamente la imagen a la pantalla
             self.reset_keys()  # Llamado a funcion que resetea los controles
@@ -305,3 +304,5 @@ class Game():  # Creación clase juego
         text_rect.center = (x, y)  # Centra la imagen del rectangulo
         self.display.blit(text_surface,
                           text_rect)  # Pone el rectangulo con la imagen que contiene el texto en la imagen
+
+
