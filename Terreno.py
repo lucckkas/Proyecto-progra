@@ -369,8 +369,10 @@ class Terreno:
             if tank.life <= 0:
                 sonidoDead.play()
                 self.fin = True
+                return True
             else:
                 sonidoIm.play()
+                return False
             cont += 1
 
     # ---------------------funciones que cambian el terreno-----------------------------

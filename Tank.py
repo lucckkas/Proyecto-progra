@@ -19,7 +19,6 @@ class Tank(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load(imagen)
         # borrar fonndo imagen
-        self.image.set_colorkey(datos.BLANCO)
         self.rect = self.image.get_rect()
         self.rect.centerx = posX
         self.rect.centery = posY
@@ -263,7 +262,7 @@ class Tank(pygame.sprite.Sprite):
             else:
                 self.disparable = True
 
-        if self.inventarioF is not 0:
+        if self.inventarioF != 0:
             self.angle = angulo_potencia[0]
             self.potencia = angulo_potencia[1]
             self.disparar()

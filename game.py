@@ -141,7 +141,9 @@ class Game:  # Creación clase juego
                 i.mover_angulo()
                 i.cambio_potencia()
                 for j in self.mapa.tanques:
-                    self.mapa.colisionSprite(i, j.bala, self.greatSound, self.hellSound)
+                    if self.mapa.colisionSprite(i, j.bala, self.greatSound, self.hellSound):
+                        j.kills += 1
+                        print(j.kills)
 
             self.window.blit(self.display, (0, 0))  # Alinea display y window -no borrar-
 
@@ -188,7 +190,7 @@ class Game:  # Creación clase juego
                     for i in range(datos.cantidad_tankes):
                         self.turnos.append(i)
 
-            if self.boton_salir.click(pygame.mouse.get_pos()):
+                if self.boton_salir.click(pygame.mouse.get_pos()):
                     self.running, self.playing = False, False  # Cierra juego
                     self.curr_menu.run_display = False
                     sys.exit()
