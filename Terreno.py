@@ -288,7 +288,7 @@ class Terreno:
 
   # funcion para obtener posicion eje x aleatorea #
   def posiscion_x_alazar(self):
-      x = r.randint(0, 639)
+      x = r.randint(0, d.largo_mitad-1)
       return x
   
     
@@ -348,7 +348,7 @@ class Terreno:
           tanque.explosion.iniciar(tanque.bala.getPos(), tanque.bala.get_diametro())
           tanque.bala.detener()
 
-      if (posx >= 639 ):
+      if (posx >= d.largo_mitad-1 ):
           print("colicion lado derecho")
 
           self.tanques[0].changeTurn()
@@ -465,9 +465,6 @@ class Terreno:
       if (len(self.tanques) == 0):
           n_pos = self.posiscion_x_alazar()
           print(n_pos)
-
-          while (n_pos > 280 and n_pos < 360):  # evita que se genere muy al centro
-              n_pos = self.posiscion_x_alazar()
 
           if len(self.tanques) == 0:
               Tanque = Tanke(d.tanque(1), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(1))

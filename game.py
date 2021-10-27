@@ -26,8 +26,8 @@ class Game():  # Creación clase juego
         self.mapa = Terreno.Terreno()
         self.mapa.crea_terreno()
 
-        self.mapa.crear_tanque_pruebas()
-        self.mapa.crear_tanque_pruebas()
+        self.mapa.crear_tanque_pos()
+        self.mapa.crear_tanque_pos()
         # definir que solo uno no podra tirar
         self.mapa.tanques[1].changeTurn()
 
