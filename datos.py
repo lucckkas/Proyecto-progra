@@ -1,52 +1,61 @@
 import os
 
+
 def abrir(dir1, dir2):
     # recibe un dir2 que deberia ser una subcarpeta o archivo de dir1
     # retorna un string con la direccion completa de dir2
     return os.path.join(dir1, dir2)
-def tanque(num):
-    if num == 1:
-        return abrir(carpeta_base,tank1)
-    elif num == 2:
-        return abrir(carpeta_base,tank2)
-def cagnon(num):
-    if num == 1:
-        return abrir(carpeta_cagnon,mira1)
-    elif num == 2:
-        return  abrir(carpeta_cagnon,mira2)
-def num(num):
-    if  num == 0:
-        return abrir(carpeta_numeros,"0.png")
-    elif  num == 1:
-        return abrir(carpeta_numeros,"1.png")
-    elif num == 2:
+
+
+def tanque(numero):
+    if numero == 1:
+        return abrir(carpeta_base, tank1)
+    elif numero == 2:
+        return abrir(carpeta_base, tank2)
+
+
+def cagnon(numero):
+    if numero == 1:
+        return abrir(carpeta_cagnon, mira1)
+    elif numero == 2:
+        return abrir(carpeta_cagnon, mira2)
+
+
+def num(numero):
+    if numero == 0:
+        return abrir(carpeta_numeros, "0.png")
+    elif numero == 1:
+        return abrir(carpeta_numeros, "1.png")
+    elif numero == 2:
         return abrir(carpeta_numeros, "2.png")
-    elif num == 3:
+    elif numero == 3:
         return abrir(carpeta_numeros, "3.png")
-    elif num == 4:
+    elif numero == 4:
         return abrir(carpeta_numeros, "4.png")
-    elif num == 5:
+    elif numero == 5:
         return abrir(carpeta_numeros, "5.png")
-    elif num == 6:
+    elif numero == 6:
         return abrir(carpeta_numeros, "6.png")
-    elif num == 7:
+    elif numero == 7:
         return abrir(carpeta_numeros, "7.png")
-    elif num == 8:
+    elif numero == 8:
         return abrir(carpeta_numeros, "8.png")
-    elif num == 9:
+    elif numero == 9:
         return abrir(carpeta_numeros, "9.png")
+
+
 def txt(texto):
     if texto == "distancia":
-        return abrir(carpeta_texto,"distan.png")
+        return abrir(carpeta_texto, "distan.png")
     elif texto == "balas":
-        return abrir(carpeta_texto,"balas.png")
+        return abrir(carpeta_texto, "balas.png")
     elif texto == "potencia":
-        return abrir(carpeta_texto,"power.png")
+        return abrir(carpeta_texto, "power.png")
     elif texto == "altura":
-        return  abrir(carpeta_texto,"height.png")
+        return abrir(carpeta_texto, "height.png")
 
 
-#nombres archivos
+# nombres archivos
 tank1 = "tank1.png"
 tank2 = "tank2.png"
 tank3 = "tank3.png"
@@ -95,9 +104,9 @@ AZUL = [0, 0, 255]
 
 # variables
 # terreno
-tamagno_mapa = [800,800]
+tamagno_mapa = [1280, 720]
 forma_terreno = 5
-largo_mitad = (tamagno_mapa[0]//2 )
+largo_mitad = (tamagno_mapa[0]//2)
 
 alto = tamagno_mapa[1]
 

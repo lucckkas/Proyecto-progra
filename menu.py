@@ -2,7 +2,7 @@ import pygame
 import datos
 
 
-class Menu():
+class Menu:
 
     def __init__(self, game):  # Se entrega comoa arg game para poder ocupar las funciones construidas
         self.game = game  # Da acceso a variables de "game"
@@ -14,13 +14,13 @@ class Menu():
     def draw_cursor(self):
         self.game.dibuja_texto('*', 15, self.cursor_rect.x, self.cursor_rect.y)  # Dibuja y ubica el indicador
 
-    def blit_screen(self): #Updatea la pantalla
+    def blit_screen(self):  # Updatea la pantalla
         self.game.window.blit(self.game.display, (0, 0))
         pygame.display.update()
         self.game.reset_keys()
 
 
-class MainMenu(Menu): #Inicio clase menu principal, recibe como argumento la clase menu
+class MainMenu(Menu):  # Inicio clase menu principal, recibe como argumento la clase menu
     def __init__(self, game):
 
         Menu.__init__(self, game)
@@ -30,7 +30,7 @@ class MainMenu(Menu): #Inicio clase menu principal, recibe como argumento la cla
         self.creditsx, self.creditsy = self.mid_w, self.mid_h + 70
         self.cursor_rect.midtop = (self.startx + self.offset, self.starty)
 
-    def display_menu(self):#Muestra menu
+    def display_menu(self):  # Muestra menu
         self.run_display = True
 
         while self.run_display:
@@ -88,10 +88,10 @@ class MainMenu(Menu): #Inicio clase menu principal, recibe como argumento la cla
 
 class MenuControles(Menu):
 
-    def __init__(self, game): #Definicion
+    def __init__(self, game):  # Definicion
         Menu.__init__(self, game)
 
-    def display_menu(self):#Muestra menu de controles
+    def display_menu(self):  # Muestra menu de controles
         self.run_display = True
         while self.run_display:
             self.game.check_events()
@@ -101,23 +101,30 @@ class MenuControles(Menu):
             self.game.display.fill(datos.BLANCO)
             self.game.dibuja_texto('CONTROLES', 45, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 280)
             self.game.dibuja_texto('numero 1 * bala 60mm', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 200)
-            self.game.dibuja_texto('numero 2 * bala perforante', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 170)
+            self.game.dibuja_texto('numero 2 * bala perforante', 20, self.game.DISPLAY_W / 2,
+                                   self.game.DISPLAY_H / 2 - 170)
             self.game.dibuja_texto('numero 3 * bala 105mm', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 140)
-            self.game.dibuja_texto('tecla izquierda  * rotar izquierda', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 60)
-            self.game.dibuja_texto('tecla derecha  * rotar derecha', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 30)
-            self.game.dibuja_texto('tecla arriba * aumentar potencia', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 )
-            self.game.dibuja_texto('tecla abajo * dismunuir potencia ', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 30)
-            self.game.dibuja_texto('barra espaciadora * disparar', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 60)
-            self.game.dibuja_texto('Boton Reset * Vuelve menu principal', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 90)
+            self.game.dibuja_texto('tecla izquierda  * rotar izquierda', 20, self.game.DISPLAY_W / 2,
+                                   self.game.DISPLAY_H / 2 - 60)
+            self.game.dibuja_texto('tecla derecha  * rotar derecha', 20, self.game.DISPLAY_W / 2,
+                                   self.game.DISPLAY_H / 2 - 30)
+            self.game.dibuja_texto('tecla arriba * aumentar potencia', 20, self.game.DISPLAY_W / 2,
+                                   self.game.DISPLAY_H / 2)
+            self.game.dibuja_texto('tecla abajo * dismunuir potencia ', 20, self.game.DISPLAY_W / 2,
+                                   self.game.DISPLAY_H / 2 + 30)
+            self.game.dibuja_texto('barra espaciadora * disparar', 20, self.game.DISPLAY_W / 2,
+                                   self.game.DISPLAY_H / 2 + 60)
+            self.game.dibuja_texto('Boton Reset * Vuelve menu principal', 20, self.game.DISPLAY_W / 2,
+                                   self.game.DISPLAY_H / 2 + 90)
 
             self.blit_screen()
 
 
 class MenuCreditos(Menu):  # Creación clase menu de creditos.
-    def __init__(self, game): #Definicion
+    def __init__(self, game):  # Definicion
         Menu.__init__(self, game)
 
-    def display_menu(self):#Muestra menu de creditos
+    def display_menu(self):  # Muestra menu de creditos
         self.run_display = True
         while self.run_display:
             self.game.check_events()
