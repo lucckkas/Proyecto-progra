@@ -95,14 +95,15 @@ AZUL = [0, 0, 255]
 
 # variables
 # terreno
-tamagno_mapa = [1280, 720]
+tamagno_mapa = [800,800]
 forma_terreno = 5
-largo_mitad = 640
-alto = 720
+largo_mitad = (tamagno_mapa[0]//2 )
+
+alto = tamagno_mapa[1]
 
 grosor = 2
 
-viento = -10
+viento = 10
 # tanke
 cantidad_tankes = 2
 balas_60mm = 10
