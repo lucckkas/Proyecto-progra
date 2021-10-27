@@ -183,8 +183,12 @@ class Game:  # Creación clase juego
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.boton_reset.click(pygame.mouse.get_pos()):
                     self.START_KEY = True
+                    # reinicio turnos
+                    self.turnos = []
+                    for i in range(datos.cantidad_tankes):
+                        self.turnos.append(i)
 
-                if self.boton_salir.click(pygame.mouse.get_pos()):
+            if self.boton_salir.click(pygame.mouse.get_pos()):
                     self.running, self.playing = False, False  # Cierra juego
                     self.curr_menu.run_display = False
                     sys.exit()
@@ -193,6 +197,10 @@ class Game:  # Creación clase juego
 
                 if event.key == pygame.K_RETURN:
                     self.START_KEY = True
+                    # reinicio turnos
+                    self.turnos = []
+                    for i in range(datos.cantidad_tankes):
+                        self.turnos.append(i)
 
                 if event.key == pygame.K_BACKSPACE:
                     self.BACK_KEY = True
