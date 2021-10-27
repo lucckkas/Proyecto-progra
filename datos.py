@@ -95,9 +95,9 @@ AZUL = [0, 0, 255]
 
 # variables
 # terreno
-tamagno_mapa = [800, 720]
+tamagno_mapa = [800,800]
 forma_terreno = 5
-largo_mitad = tamagno_mapa[0]//2
+largo_mitad = (tamagno_mapa[0]//2 )
 
 alto = tamagno_mapa[1]
 
