@@ -135,8 +135,8 @@ class Bala(pygame.sprite.Sprite):
         while i != self.Fpos_balaX + self.tam_explocion:
             
             add = i
-            if add >= 1279:
-                add = 1279
+            if add >= datos.tamagno_mapa[0]-1:
+                add = datos.tamagno_mapa[0]-1
 
             if add <= 1:
                 add = 1
