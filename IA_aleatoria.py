@@ -6,7 +6,7 @@ def mezclar_lista(njugadores):
     turnos = []
 
     for i in range(njugadores):
-        aux.append(i+1)
+        aux.append(i)
 
     for i in range(len(aux)):
         nuevo_turno = r.randint(0, len(aux) - 1)
@@ -17,7 +17,7 @@ def mezclar_lista(njugadores):
     return turnos
 
 
-class IA_aleatoria():
+class IA_aleatoria:
     def __init__(self):
         self.angulo = 0
         self.potencia = 0

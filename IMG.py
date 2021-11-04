@@ -1,8 +1,9 @@
 import pygame
 
+
 class Img(pygame.sprite.Sprite):
 
-    def __init__(self,posx,posy,imagen):
+    def __init__(self, posx, posy, imagen):
         super().__init__()
         self.image = pygame.image.load(imagen)
         self.rect = self.image.get_rect()
@@ -11,11 +12,11 @@ class Img(pygame.sprite.Sprite):
         self.width = self.rect.width
         self.height = self.rect.height
 
-    #Cambiar imagen
-    def camb(self,img):
+    # Cambiar imagen
+    def camb(self, img):
         self.image = pygame.image.load(img)
 
-    #Retornar variables del tamaño de la imagen
+    # Retornar variables del tamaño de la imagen
     def getWidth(self):
         return self.width
 
