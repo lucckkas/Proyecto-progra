@@ -1,5 +1,6 @@
 import pygame
 import random as r
+import IA_aleatoria
 from Tank import Tank
 import datos as d
 
@@ -354,7 +355,6 @@ class Terreno:
             self.fin = True
 
     def colisionSprite(self, tank, bala, sonidoIm, sonidoDead):
-        cont = 0
         tankX = tank.getPosX()
         offsetX = tank.getWidth() / 2
         tankY = tank.getPosY()
@@ -373,7 +373,6 @@ class Terreno:
             else:
                 sonidoIm.play()
                 return False
-            cont += 1
 
     # ---------------------funciones que cambian el terreno-----------------------------
 
@@ -415,44 +414,18 @@ class Terreno:
         self.tanques.append(Tanque)
         self.tanques.append(Tanque)
 
-    def crear_tanque_pos(self):  # funcion usada para generar tanques en el terreno limitada a solo 2 tanques
-
-        if len(self.tanques) == 0:
-            n_pos = self.posiscion_x_alazar()
-            # print(n_pos)
-
-            if len(self.tanques) == 0:
-                Tanque = Tank(d.tanque(1), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(1))
-
-            if len(self.tanques) > 0:
-                Tanque = Tank(d.tanque(2), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(2))
+    def crear_tanque_pos(self):  # funcion usada para generar tanques en el terreno
+        orden = IA_aleatoria.mezclar_lista(d.cantidad_tankes)
+        n_tnks = d.cantidad_tankes
+        espacio_por_tnk = d.tamagno_mapa[0] // (n_tnks*2 - 1)
+        for i in range(n_tnks):
+            self.matar_tanque(0)
+        for i in range(n_tnks):
+            n_pos = r.randint(0, espacio_por_tnk)
+            n_pos += espacio_por_tnk * (i*2)
+            n_pos = n_pos//2
+            Tanque = Tank(d.tanque(orden[i]+1), (n_pos*2), self.alturas[n_pos], d.cagnon(orden[i]+1))
             self.tanques.append(Tanque)
-
-        elif len(self.tanques) == 1:
-            n_pos = self.posiscion_x_alazar()
-
-            while True:  # ciclo que evita que se generen tanques muy cerca (mas de la mitad de terreno de diferencia)
-                if not ((self.tanques[0].rect.centerx // 2) - d.tamagno_mapa[0] // (2 * d.cantidad_tankes) < n_pos < (
-                        self.tanques[0].rect.centerx // 2) + d.tamagno_mapa[0] // (2 * d.cantidad_tankes)):
-                    break
-
-                else:
-                    n_pos = self.posiscion_x_alazar()
-                    # print("pos nueva", n_pos)
-                    # print("pos tanque",
-                    # (self.tanques[0].rect.centerx + d.tamagno_mapa[0] // (2 * d.cantidad_tankes) // 2))
-                    # print("pos error")
-
-            if len(self.tanques) == 0:
-                Tanque = Tank(d.tanque(1), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(1))
-
-            if len(self.tanques) > 0:
-                Tanque = Tank(d.tanque(2), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(2))
-            self.tanques.append(Tanque)
-            # print("nueva pos encontrada")
-
-        else:
-            pass  # print("tanques limitados a 2 para la entrega")
 
     def dibujar_tanques(self, screen):  # funcion que dibuja tanques en pantalla
         for x in self.tanques:

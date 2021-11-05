@@ -31,7 +31,6 @@ class Game:  # Creación clase juego
         self.mapa.crea_terreno()
 
         self.mapa.crear_tanque_pos()
-        self.mapa.crear_tanque_pos()
 
         self.running, self.playing = True, False  # Definición variables para inicializacion de juego
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False  # Control de teclas
@@ -172,7 +171,6 @@ class Game:  # Creación clase juego
         self.mapa.crea_terreno()
         for i in range(datos.cantidad_tankes):
             self.mapa.matar_tanque(0)
-        self.mapa.crear_tanque_pos()
         self.mapa.crear_tanque_pos()
 
     def check_events(self):  # Checkea que botones presiona el usuario
