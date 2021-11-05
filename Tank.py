@@ -86,6 +86,7 @@ class Tank(pygame.sprite.Sprite):
         self.sprites = pygame.sprite.Group()
         self.sprites.add(self)
         self.sprites.add(self.mira)
+        self.sprites.add(self.explosion)
 
 
     def dibujar(self, pantalla):
@@ -333,6 +334,5 @@ class Tank(pygame.sprite.Sprite):
         self.uni2.kill()
         self.inventario.kill()
         self.balaImg.kill()
-        self.explosion.kill()
         self.dec3.kill()
         self.uni3.kill()
