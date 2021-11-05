@@ -361,7 +361,7 @@ class Terreno:
         offsetY = tank.getHeight() / 2
         balax = bala.getPos_X()
         balay = bala.getPos_Y()
-
+        cont = 0
         if (tankX - offsetX <= balax < tankX + offsetX) and (tankY - offsetY <= balay <= tankY + offsetY) and cont == 0:
             tank.explosion.iniciar(bala.getPos(), bala.get_diametro())
             bala.detener()
