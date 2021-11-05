@@ -21,10 +21,8 @@ class Game:  # Creación clase juego
         self.clock = pygame.time.Clock()
 
         # sistema turnos
-        self.turno_act = 0
-        self.turnos = []
-        for i in range(datos.cantidad_tankes):
-            self.turnos.append(i)
+        self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
+        self.turno_act = self.turnos[0]
 
         # -----------crear terreno-----------
         self.mapa = Terreno.Terreno()
@@ -200,9 +198,7 @@ class Game:  # Creación clase juego
                 if event.key == pygame.K_RETURN:
                     self.START_KEY = True
                     # reinicio turnos
-                    self.turnos = []
-                    for i in range(datos.cantidad_tankes):
-                        self.turnos.append(i)
+                    self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
 
                 if event.key == pygame.K_BACKSPACE:
                     self.BACK_KEY = True
