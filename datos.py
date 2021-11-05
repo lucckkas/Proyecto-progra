@@ -8,40 +8,17 @@ def abrir(dir1, dir2):
 
 
 def tanque(numero):
-    if numero == 1:
-        return abrir(carpeta_base, tank1)
-    elif numero == 2:
-        return abrir(carpeta_base, tank2)
+    print(numero)
+    return abrir(carpeta_base, f"tank{numero}.png")
 
 
 def cagnon(numero):
-    if numero == 1:
-        return abrir(carpeta_cagnon, mira1)
-    elif numero == 2:
-        return abrir(carpeta_cagnon, mira2)
+    print(numero)
+    return abrir(carpeta_cagnon, f"canon{numero}.png")
 
 
 def num(numero):
-    if numero == 0:
-        return abrir(carpeta_numeros, "0.png")
-    elif numero == 1:
-        return abrir(carpeta_numeros, "1.png")
-    elif numero == 2:
-        return abrir(carpeta_numeros, "2.png")
-    elif numero == 3:
-        return abrir(carpeta_numeros, "3.png")
-    elif numero == 4:
-        return abrir(carpeta_numeros, "4.png")
-    elif numero == 5:
-        return abrir(carpeta_numeros, "5.png")
-    elif numero == 6:
-        return abrir(carpeta_numeros, "6.png")
-    elif numero == 7:
-        return abrir(carpeta_numeros, "7.png")
-    elif numero == 8:
-        return abrir(carpeta_numeros, "8.png")
-    elif numero == 9:
-        return abrir(carpeta_numeros, "9.png")
+    return abrir(carpeta_numeros, f"{numero}.png")
 
 
 def txt(texto):
@@ -114,7 +91,7 @@ grosor = 2
 
 viento = 10
 # tanke
-cantidad_tankes = 2
+cantidad_tankes = 4
 balas_60mm = 10
 balas_perforantes = 10
 balas_105mm = 10
