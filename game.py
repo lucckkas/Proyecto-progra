@@ -6,6 +6,7 @@ import Terreno
 import Boton
 import Bandera
 import IA_aleatoria
+import random as r
 from Bala import Bala
 from IMG import Img
 from Bala import Bala
@@ -163,6 +164,7 @@ class Game:  # Creación clase juego
                     self.turno_act = self.turnos[0]
                     self.ultimo_tiro = pygame.time.get_ticks()
                     self.total_balas -= 1
+                    datos.viento = r.randint(-10, 10)
 
             # reinicio del mundo
         self.mapa.fin = False
@@ -233,6 +235,7 @@ class Game:  # Creación clase juego
                             self.turno_act = self.turnos[0]
                             self.ultimo_tiro = pygame.time.get_ticks()
                             self.total_balas -= 1
+                            datos.viento = r.randint(-10, 10)
 
                 if event.key == pygame.K_1:
                     if self.turno_act < self.cantidad_human:

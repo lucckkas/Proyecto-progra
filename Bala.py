@@ -73,6 +73,7 @@ class Bala(pygame.sprite.Sprite):
         self.disparado = True
         self.alturamaxima = (self.velocidad_inicialV * self.velocidad_inicialV) / (2 * datos.GRAVEDAD_TIERRA)
         self.temp = pygame.time.get_ticks()
+        self.viento = datos.viento
 
     def rotar(self, surface, angulo):  # rota surface en angulo y la centra
         bala_rotada = pygame.transform.rotozoom(surface, angulo, 1)
@@ -89,7 +90,7 @@ class Bala(pygame.sprite.Sprite):
             vel = pygame.time.get_ticks() - self.temp
             vel = vel/150  # esta variable representa el tiempo en las formulas de movimiento
             # fornulas posicion
-            self.rect.centerx = self.posX + self.velocidad_inicialH * vel + 0.5 * datos.viento/5 * vel * vel
+            self.rect.centerx = self.posX + self.velocidad_inicialH * vel + 0.5 * self.viento/5 * vel * vel
             self.rect.centery = self.posY - self.velocidad_inicialV * vel + 0.5 * datos.GRAVEDAD_TIERRA * vel * vel
 
             # cada 50 ms guarda la posicion de la bala en coordinate
@@ -99,7 +100,7 @@ class Bala(pygame.sprite.Sprite):
                 self.coord_time = pygame.time.get_ticks()
 
             # rotacion
-            velocidad_horizontal_act = self.velocidad_inicialH + datos.viento/5 * vel
+            velocidad_horizontal_act = self.velocidad_inicialH + self.viento/5 * vel
             if velocidad_horizontal_act == 0:  # forma cutre de arreglar posible div por 0 XD
                 velocidad_horizontal_act = 0.0000000001
             velocidad_vertical_act = self.velocidad_inicialV - datos.GRAVEDAD_TIERRA * vel
@@ -135,8 +136,8 @@ class Bala(pygame.sprite.Sprite):
         while i != self.Fpos_balaX + self.tam_explocion:
             
             add = i
-            if add >= 1279:
-                add = 1279
+            if add >= datos.tamagno_mapa[0]-1:
+                add = datos.tamagno_mapa[0]-1
 
             if add <= 1:
                 add = 1

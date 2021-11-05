@@ -12,15 +12,14 @@ class Bandera(pygame.sprite.Sprite):
         self.cont = 1
         self.rect.x = pos[0]
         self.rect.y = pos[1]
-        self.ritmo = 100-fabs(datos.viento)*7
+
+    def dibujar(self, pantalla, ahora):
         if datos.viento < 0:
             self.direccion = "i"
         else:
             self.direccion = "d"
-
-    def dibujar(self, pantalla, ahora):
         pantalla.blit(self.image, (self.rect.x, self.rect.y))
-        if ahora - self.tiempo > self.ritmo and self.cont < 7 and datos.viento != 0:
+        if ahora - self.tiempo > 100-fabs(datos.viento)*7 and self.cont < 7 and datos.viento != 0:
             # cambia imagenes
             self.image = self.image = pygame.image.load(datos.abrir(
                 datos.carpeta_bandera, f"{self.cont}{self.direccion}.png"))
