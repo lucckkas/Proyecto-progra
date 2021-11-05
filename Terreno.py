@@ -422,9 +422,9 @@ class Terreno:
             self.matar_tanque(0)
         for i in range(n_tnks):
             n_pos = r.randint(0, espacio_por_tnk)
-            n_pos += espacio_por_tnk * (i*2)
+            n_pos += espacio_por_tnk * (orden[i]*2)
             n_pos = n_pos//2
-            Tanque = Tank(d.tanque(orden[i]+1), (n_pos*2), self.alturas[n_pos], d.cagnon(orden[i]+1))
+            Tanque = Tank(d.tanque(i+1), (n_pos*2), self.alturas[n_pos], d.cagnon(i+1))
             self.tanques.append(Tanque)
 
     def dibujar_tanques(self, screen):  # funcion que dibuja tanques en pantalla
