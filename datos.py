@@ -8,12 +8,10 @@ def abrir(dir1, dir2):
 
 
 def tanque(numero):
-    print(numero)
     return abrir(carpeta_base, f"tank{numero}.png")
 
 
 def cagnon(numero):
-    print(numero)
     return abrir(carpeta_cagnon, f"canon{numero}.png")
 
 
