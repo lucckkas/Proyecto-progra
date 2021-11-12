@@ -54,24 +54,24 @@ class Tank(pygame.sprite.Sprite):
         self.cent = Img(0, 50, self.numImg[2])
         width_num = self.cent.getWidth()
             # poner la potencia en pantalla
-        self.imgPower = Img(0 + width_leter / 2, 25, self.txtImg)
-        self.cent = Img(0 + width_leter, 25, self.numImg[2])
-        self.dec = Img(0 + width_leter + width_num, 25, self.numImg[2])
-        self.uni = Img(0 + width_leter + width_num * 2, 25, self.numImg[2])
+        self.imgPower = Img(5 + width_leter / 2, 25, self.txtImg)
+        self.cent = Img(15 + width_leter, 25, self.numImg[2])
+        self.dec = Img(15 + width_leter + width_num, 25, self.numImg[2])
+        self.uni = Img(15 + width_leter + width_num * 2, 25, self.numImg[2])
             # poner la altura en pantalla
-        self.imgAltura = Img(0 + width_leter / 2, 50, self.heightImg)
-        self.mil = Img(0 + width_leter, 50, self.numImg[2])
-        self.cent1 = Img(0 + width_leter + width_num, 50, self.numImg[2])
-        self.dec1 = Img(0 + width_leter + width_num * 2, 50, self.numImg[2])
-        self.uni1 = Img(0 + width_leter + width_num * 3, 50, self.numImg[2])
+        self.imgAltura = Img(5 + width_leter / 2, 50, self.heightImg)
+        self.mil = Img(15 + width_leter, 50, self.numImg[2])
+        self.cent1 = Img(15 + width_leter + width_num, 50, self.numImg[2])
+        self.dec1 = Img(15 + width_leter + width_num * 2, 50, self.numImg[2])
+        self.uni1 = Img(15 + width_leter + width_num * 3, 50, self.numImg[2])
             # poner la cuanta  distancia recorre  en pantalla
-        self.imgDistan = Img(0 + width_leter / 2, 75, self.distanImg)
-        self.mil2 = Img(0 + width_leter, 75, self.numImg[2])
-        self.cent2 = Img(0 + width_leter + width_num, 75, self.numImg[2])
-        self.dec2 = Img(0 + width_leter + width_num * 2, 75, self.numImg[2])
-        self.uni2 = Img(0 + width_leter + width_num * 3, 75, self.numImg[2])
+        self.imgDistan = Img(5 + width_leter / 2, 75, self.distanImg)
+        self.mil2 = Img(15 + width_leter, 75, self.numImg[2])
+        self.cent2 = Img(15 + width_leter + width_num, 75, self.numImg[2])
+        self.dec2 = Img(15 + width_leter + width_num * 2, 75, self.numImg[2])
+        self.uni2 = Img(15 + width_leter + width_num * 3, 75, self.numImg[2])
 
-        self.inventario = Img(0 + width_leter / 2, 100, self.invenImg)
+        self.inventario = Img(5 + width_leter / 2, 100, self.invenImg)
         self.balatip = self.bala.tipo
         self.balaImg = Img(width_leter, 100, datos.abrir(datos.carpeta_balas, self.balatip))
         self.dec3 = Img(width_leter + width_num * 2, 100, self.numImg[0])
@@ -80,7 +80,6 @@ class Tank(pygame.sprite.Sprite):
         self.posvidaX = 0
         self.posvidaY = 125
         self.alive = True
-        self.Mturno= Img(self.getPosX(),self.getPosY()-30,datos.abrir(datos.carpeta_texto,"marca.png"))
         # crear la mira en su posicion correspondiente al centro en x y en su posicion y correspondiente
         self.mira = Mira(self.rect.x + self.width / 2, self.rect.y + self.height / 4.5, miraImg)
         # crear grupo donde estaran los sprites a dibujar
@@ -305,6 +304,7 @@ class Tank(pygame.sprite.Sprite):
         if self.inventarioF == 0:
             return False
         return True
+
     def Aparametros(self,pantalla):
         self.sprites.add(self.imgPower)
         self.sprites.add(self.cent)
@@ -325,9 +325,7 @@ class Tank(pygame.sprite.Sprite):
         self.sprites.add(self.explosion)
         self.sprites.add(self.dec3)
         self.sprites.add(self.uni3)
-        self.sprites.add(self.Mturno)
-        pygame.draw.rect(pantalla, datos.ROJO, [self.posvidaX, self.posvidaY, 200, 30])
-        pygame.draw.rect(pantalla, datos.VERDE, [self.posvidaX, self.posvidaY, 200 * (self.life / 100), 30])
+
     def Eparametros(self):
         self.imgPower.kill()
         self.cent.kill()
@@ -347,4 +345,3 @@ class Tank(pygame.sprite.Sprite):
         self.balaImg.kill()
         self.dec3.kill()
         self.uni3.kill()
-        self.Mturno.kill()

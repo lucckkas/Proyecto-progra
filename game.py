@@ -97,8 +97,6 @@ class Game:  # Creación clase juego
 
             # dibujar terreno
             self.mapa.dibujar_terreno(self.display, datos.NEGRO)
-            print(self.turno_act)
-
 
             for i in range(len(self.mapa.tanques)):
                 self.mapa.tanques[i].Eparametros()
