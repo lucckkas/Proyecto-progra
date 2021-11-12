@@ -48,103 +48,54 @@ class Tank(pygame.sprite.Sprite):
         self.numImg = [datos.num(0), datos.num(1), datos.num(2), datos.num(3), datos.num(4), datos.num(5), datos.num(6),
                        datos.num(7), datos.num(8), datos.num(9)]
         # colocar el texto dependiendo donde esta el el tanque
-        if self.rect.centerx > 640:
-            # crear imagen del texto y de la centena para poder obtener sus anchos y crearlos en la posicion adecuada
-            # con un calculo que use dichas variables y el tamaño de la pantalla
-            self.imgPower = Img(0, 50, self.txtImg)
-            width_leter = self.imgPower.getWidth()
-            self.cent = Img(0, 50, self.numImg[2])
-            width_num = self.cent.getWidth() + 1
-            # volver a crear las imagenes solo que ahora con su posicion correcta
-            self.imgPower = Img((TAM_MAPA - (width_leter / 2) - width_num * 3), 25, self.txtImg)
-            self.cent = Img((TAM_MAPA - width_num * 3), 25, self.numImg[0])
-            self.dec = Img((TAM_MAPA - width_num * 2), 25, self.numImg[2])
-            self.uni = Img((TAM_MAPA - width_num), 25, self.numImg[2])
-            # poner la altura en pantalla
-            self.imgAltura = Img((TAM_MAPA - (width_leter / 2) - width_num * 4), 50, self.heightImg)
-            self.mil = Img((TAM_MAPA - width_num * 4), 50, self.numImg[0])
-            self.cent1 = Img((TAM_MAPA - width_num * 3), 50, self.numImg[0])
-            self.dec1 = Img((TAM_MAPA - width_num * 2), 50, self.numImg[2])
-            self.uni1 = Img((TAM_MAPA - width_num), 50, self.numImg[2])
-            # poner la cuanta  distancia recorre  en pantalla
-            self.imgDistan = Img((TAM_MAPA - (width_leter / 2) - width_num * 4), 75, self.distanImg)
-            self.mil2 = Img((TAM_MAPA - width_num * 4), 75, self.numImg[0])
-            self.cent2 = Img((TAM_MAPA - width_num * 3), 75, self.numImg[0])
-            self.dec2 = Img((TAM_MAPA - width_num * 2), 75, self.numImg[2])
-            self.uni2 = Img((TAM_MAPA - width_num), 75, self.numImg[2])
-            #
-            self.inventario = Img(TAM_MAPA - width_leter / 2 - width_num * 4, 100, self.invenImg)
-            self.balatip = self.bala.tipo
 
-            self.balaImg = Img(TAM_MAPA - width_num * 4, 100, datos.abrir(datos.carpeta_balas, self.balatip))
-            self.dec3 = Img(TAM_MAPA - width_num * 2, 100, self.numImg[0])
-            self.uni3 = Img(TAM_MAPA - width_num, 100, self.numImg[0])
-            #
-            self.posvidaX = (TAM_MAPA - self.wLife) - 1
-            self.posvidaY = 125
-
-        else:
-            # repetir lo mismo solo que ajustando la posiciones
-            self.imgPower = Img(0, 50, self.txtImg)
-            width_leter = self.imgPower.getWidth()
-            self.cent = Img(0, 50, self.numImg[2])
-            width_num = self.cent.getWidth()
+        self.imgPower = Img(0, 50, self.txtImg)
+        width_leter = self.imgPower.getWidth()
+        self.cent = Img(0, 50, self.numImg[2])
+        width_num = self.cent.getWidth()
             # poner la potencia en pantalla
-            self.imgPower = Img(0 + width_leter / 2, 25, self.txtImg)
-            self.cent = Img(0 + width_leter, 25, self.numImg[2])
-            self.dec = Img(0 + width_leter + width_num, 25, self.numImg[2])
-            self.uni = Img(0 + width_leter + width_num * 2, 25, self.numImg[2])
+        self.imgPower = Img(0 + width_leter / 2, 25, self.txtImg)
+        self.cent = Img(0 + width_leter, 25, self.numImg[2])
+        self.dec = Img(0 + width_leter + width_num, 25, self.numImg[2])
+        self.uni = Img(0 + width_leter + width_num * 2, 25, self.numImg[2])
             # poner la altura en pantalla
-            self.imgAltura = Img(0 + width_leter / 2, 50, self.heightImg)
-            self.mil = Img(0 + width_leter, 50, self.numImg[2])
-            self.cent1 = Img(0 + width_leter + width_num, 50, self.numImg[2])
-            self.dec1 = Img(0 + width_leter + width_num * 2, 50, self.numImg[2])
-            self.uni1 = Img(0 + width_leter + width_num * 3, 50, self.numImg[2])
+        self.imgAltura = Img(0 + width_leter / 2, 50, self.heightImg)
+        self.mil = Img(0 + width_leter, 50, self.numImg[2])
+        self.cent1 = Img(0 + width_leter + width_num, 50, self.numImg[2])
+        self.dec1 = Img(0 + width_leter + width_num * 2, 50, self.numImg[2])
+        self.uni1 = Img(0 + width_leter + width_num * 3, 50, self.numImg[2])
             # poner la cuanta  distancia recorre  en pantalla
-            self.imgDistan = Img(0 + width_leter / 2, 75, self.distanImg)
-            self.mil2 = Img(0 + width_leter, 75, self.numImg[2])
-            self.cent2 = Img(0 + width_leter + width_num, 75, self.numImg[2])
-            self.dec2 = Img(0 + width_leter + width_num * 2, 75, self.numImg[2])
-            self.uni2 = Img(0 + width_leter + width_num * 3, 75, self.numImg[2])
+        self.imgDistan = Img(0 + width_leter / 2, 75, self.distanImg)
+        self.mil2 = Img(0 + width_leter, 75, self.numImg[2])
+        self.cent2 = Img(0 + width_leter + width_num, 75, self.numImg[2])
+        self.dec2 = Img(0 + width_leter + width_num * 2, 75, self.numImg[2])
+        self.uni2 = Img(0 + width_leter + width_num * 3, 75, self.numImg[2])
 
-            self.inventario = Img(0 + width_leter / 2, 100, self.invenImg)
-            self.balatip = self.bala.tipo
-            self.balaImg = Img(width_leter, 100, datos.abrir(datos.carpeta_balas, self.balatip))
-            self.dec3 = Img(width_leter + width_num * 2, 100, self.numImg[0])
-            self.uni3 = Img(width_leter + width_num * 3, 100, self.numImg[0])
+        self.inventario = Img(0 + width_leter / 2, 100, self.invenImg)
+        self.balatip = self.bala.tipo
+        self.balaImg = Img(width_leter, 100, datos.abrir(datos.carpeta_balas, self.balatip))
+        self.dec3 = Img(width_leter + width_num * 2, 100, self.numImg[0])
+        self.uni3 = Img(width_leter + width_num * 3, 100, self.numImg[0])
 
-            self.posvidaX = 0
-            self.posvidaY = 125
+        self.posvidaX = 0
+        self.posvidaY = 125
         self.alive = True
+        self.Mturno= Img(self.getPosX(),self.getPosY()-30,datos.abrir(datos.carpeta_texto,"marca.png"))
         # crear la mira en su posicion correspondiente al centro en x y en su posicion y correspondiente
         self.mira = Mira(self.rect.x + self.width / 2, self.rect.y + self.height / 4.5, miraImg)
         # crear grupo donde estaran los sprites a dibujar
         self.sprites = pygame.sprite.Group()
-
-        # agregar los elementos visibles
         self.sprites.add(self)
-        self.sprites.add(self.imgPower)
-        self.sprites.add(self.cent)
-        self.sprites.add(self.dec)
-        self.sprites.add(self.uni)
-        self.sprites.add(self.imgAltura)
-        self.sprites.add(self.mil)
-        self.sprites.add(self.cent1)
-        self.sprites.add(self.dec1)
-        self.sprites.add(self.uni1)
-        self.sprites.add(self.imgDistan)
-        self.sprites.add(self.mil2)
-        self.sprites.add(self.cent2)
-        self.sprites.add(self.dec2)
-        self.sprites.add(self.uni2)
         self.sprites.add(self.mira)
-        self.sprites.add(self.inventario)
-        self.sprites.add(self.balaImg)
         self.sprites.add(self.explosion)
-        self.sprites.add(self.dec3)
-        self.sprites.add(self.uni3)
+
 
     def dibujar(self, pantalla):
+
+        ##dibujar barra de vida miniatura
+        pygame.draw.rect(pantalla, datos.ROJO, [self.getPosX()-self.getWidth()/2, self.getPosY()+30,self.getWidth(), 10])
+        pygame.draw.rect(pantalla, datos.VERDE, [self.getPosX()-self.getWidth()/2, self.getPosY()+30, self.getWidth() * (self.life / 100), 10])
+
 
         self.explosion.update(pygame.time.get_ticks())
 
@@ -183,8 +134,7 @@ class Tank(pygame.sprite.Sprite):
         unidad3 = int(self.inventarioF % 10)
 
         # dibujar barra de vida
-        pygame.draw.rect(pantalla, datos.ROJO, [self.posvidaX, self.posvidaY, 200, 30])
-        pygame.draw.rect(pantalla, datos.VERDE, [self.posvidaX, self.posvidaY, 200 * (self.life / 100), 30])
+
 
         # cambiar la imagen dependiendo del indice
         # cambiar potencia
@@ -220,6 +170,7 @@ class Tank(pygame.sprite.Sprite):
         for c in self.bala.coordinate:
             pygame.draw.circle(pantalla, datos.AZUL, c, 2)
         # actualizar posicion de la bala si esta esta visible
+
         if self.sprites.has(self.bala):
             self.bala.update()
 
@@ -354,3 +305,46 @@ class Tank(pygame.sprite.Sprite):
         if self.inventarioF == 0:
             return False
         return True
+    def Aparametros(self,pantalla):
+        self.sprites.add(self.imgPower)
+        self.sprites.add(self.cent)
+        self.sprites.add(self.dec)
+        self.sprites.add(self.uni)
+        self.sprites.add(self.imgAltura)
+        self.sprites.add(self.mil)
+        self.sprites.add(self.cent1)
+        self.sprites.add(self.dec1)
+        self.sprites.add(self.uni1)
+        self.sprites.add(self.imgDistan)
+        self.sprites.add(self.mil2)
+        self.sprites.add(self.cent2)
+        self.sprites.add(self.dec2)
+        self.sprites.add(self.uni2)
+        self.sprites.add(self.inventario)
+        self.sprites.add(self.balaImg)
+        self.sprites.add(self.explosion)
+        self.sprites.add(self.dec3)
+        self.sprites.add(self.uni3)
+        self.sprites.add(self.Mturno)
+        pygame.draw.rect(pantalla, datos.ROJO, [self.posvidaX, self.posvidaY, 200, 30])
+        pygame.draw.rect(pantalla, datos.VERDE, [self.posvidaX, self.posvidaY, 200 * (self.life / 100), 30])
+    def Eparametros(self):
+        self.imgPower.kill()
+        self.cent.kill()
+        self.dec.kill()
+        self.uni.kill()
+        self.imgAltura.kill()
+        self.mil.kill()
+        self.cent1.kill()
+        self.dec1.kill()
+        self.uni1.kill()
+        self.imgDistan.kill()
+        self.mil2.kill()
+        self.cent2.kill()
+        self.dec2.kill()
+        self.uni2.kill()
+        self.inventario.kill()
+        self.balaImg.kill()
+        self.dec3.kill()
+        self.uni3.kill()
+        self.Mturno.kill()
