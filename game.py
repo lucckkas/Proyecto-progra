@@ -76,7 +76,7 @@ class Game:  # Creación clase juego
         self.total_balas = (datos.cantidad_tankes * (datos.balas_60mm + datos.balas_perforantes + datos.balas_105mm))
 
         # bandera
-        self.bandera = Bandera.Bandera([datos.tamagno_mapa[0] / 4, 10])
+        self.bandera = Bandera.Bandera([datos.tamagno_mapa[0]*3 / 4, 10])
 
         # triangulo para los turnos
         self.triangulo = Triangulo.Triangulo(self.mapa.tanques[self.turno_act].getPos())
