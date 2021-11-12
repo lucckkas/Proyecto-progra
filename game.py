@@ -110,8 +110,6 @@ class Game:  # Creación clase juego
                                                   datos.tamagno_mapa[1] / 2 + empateI.getHeight() / 2))
 
 
-
-
             #
 
             # dibujar tanques
@@ -125,25 +123,6 @@ class Game:  # Creación clase juego
             self.bandera.dibujar(self.display, pygame.time.get_ticks())
             # dibuja triangulo para los turnos
             self.triangulo.dibujar(self.display, pygame.time.get_ticks())
-
-            # pruebas lineas en centro
-            # self.mapa.check_pos(self.display, self.rojo, 560)
-            # self.mapa.check_pos(self.display, self.rojo, 720)
-            # self.mapa.check_pos(self.display, self.rojo, 640)
-
-            # pruebas distancia entre tanques
-            # self.mapa.chech_largo(self.display, self.rojo, self.mapa.tanques[0].rect.x, self.mapa.tanques[0].rect.y)
-
-            # pruebas deteccion explocion de terreno
-
-            """
-            for i in range(len(self.mapa.tanques[0].bala.puntos_x)):
-                pygame.draw.circle(self.display,self.rojo,[self.mapa.tanques[0].bala.puntos_x[i],self.mapa.tanques[0].bala.Fpos_balaY],2)
-            
-                pygame.draw.circle(self.display,self.rojo,[self.mapa.tanques[0].bala.puntos_x[i],self.mapa.tanques[0].bala.puntos_ypos[i]],2)
-           
-                pygame.draw.circle(self.display,self.rojo,[self.mapa.tanques[0].bala.puntos_x[i],self.mapa.tanques[0].bala.puntos_yneg[i]],2)
-            """
 
             # destruir terreno
             self.mapa.destruir_terreno()
