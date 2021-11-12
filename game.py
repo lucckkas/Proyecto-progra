@@ -8,7 +8,6 @@ import Terreno
 import Boton
 import Bandera
 import IA_aleatoria
-from Bala import Bala
 from IMG import Img
 from Bala import Bala
 
@@ -77,7 +76,7 @@ class Game:  # Creación clase juego
         self.total_balas = (datos.cantidad_tankes * (datos.balas_60mm + datos.balas_perforantes + datos.balas_105mm))
 
         # bandera
-        self.bandera = Bandera.Bandera([datos.tamagno_mapa[0] / 4, 10])
+        self.bandera = Bandera.Bandera([datos.tamagno_mapa[0]*3 / 4, 10])
 
         # triangulo para los turnos
         self.triangulo = Triangulo.Triangulo(self.mapa.tanques[self.turno_act].getPos())
@@ -85,6 +84,13 @@ class Game:  # Creación clase juego
     def game_loop(self):  # Inicio loopeo
         pygame.mixer.music.play()
         while self.playing:  # Mientras siga jugando:
+            if not self.mapa.tanques[self.turno_act].vivo():
+                self.turnos.remove(self.turno_act)
+                if len(self.turnos) == 0:
+                    self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
+                self.turno_act = self.turnos[0]
+                self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
+
             self.check_events()  # Llamado a que checkee eventos
 
             if self.START_KEY:
@@ -102,15 +108,12 @@ class Game:  # Creación clase juego
                 self.mapa.tanques[i].Eparametros()
             self.mapa.tanques[self.turno_act].Aparametros(self.display)
 
-            # imprimir empate si es que es el caso
-            if self.total_balas == 0:
+            if self.total_balas == 0:  # FIXME no funciona, los tankes que mueren antes no disparan
+                print(self.total_balas)
                 empateI = Img(datos.tamagno_mapa[0] / 2, datos.tamagno_mapa[1] / 2,
                               datos.abrir(datos.carpeta_texto, "empate.png"))
                 self.display.blit(empateI.image, (datos.tamagno_mapa[0] / 2 - empateI.getWidth() / 2,
                                                   datos.tamagno_mapa[1] / 2 + empateI.getHeight() / 2))
-
-
-            #
 
             # dibujar tanques
             self.mapa.dibujar_tanques(self.display)
@@ -149,7 +152,8 @@ class Game:  # Creación clase juego
             # disparo por "IA"
             if self.turno_act >= self.cantidad_human:
                 if not self.mapa.tanques[self.turno_act].bala.disparado\
-                        and pygame.time.get_ticks() - self.ultimo_tiro > 1000:  # tiempo entre disparos
+                        and pygame.time.get_ticks() - self.ultimo_tiro > 1000\
+                        and self.mapa.tanques[self.turno_act].vivo():  # tiempo entre disparos
                     self.mapa.tanques[self.turno_act].dispararIA(
                         self.IAs[self.turno_act - self.cantidad_human].disparar())
                     self.turnos.remove(self.turno_act)
@@ -217,9 +221,10 @@ class Game:  # Creación clase juego
 
                 if event.key == pygame.K_SPACE:
                     if self.turno_act < self.cantidad_human:
-                        if (not self.mapa.tanques[self.turno_act].bala.disparado
+                        if (not self.mapa.tanques[self.turno_act].bala.disparado  # tiene bala en el aire
                                 and self.mapa.tanques[self.turno_act].tiene_balas())\
-                                and pygame.time.get_ticks() - self.ultimo_tiro > 1000:  # para limitar que tan rapido pueden disparar
+                                and pygame.time.get_ticks() - self.ultimo_tiro > 1000\
+                                and self.mapa.tanques[self.turno_act].vivo():
 
                             self.mapa.tanques[self.turno_act].disparar()
                             self.turnos.remove(self.turno_act)
