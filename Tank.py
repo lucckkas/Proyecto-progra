@@ -80,6 +80,7 @@ class Tank(pygame.sprite.Sprite):
         self.posvidaX = 0
         self.posvidaY = 125
         self.alive = True
+        self.Mturno= Img(self.getPosX(),self.getPosY()-30,datos.abrir(datos.carpeta_texto,"marca.png"))
         # crear la mira en su posicion correspondiente al centro en x y en su posicion y correspondiente
         self.mira = Mira(self.rect.x + self.width / 2, self.rect.y + self.height / 4.5, miraImg)
         # crear grupo donde estaran los sprites a dibujar
@@ -90,6 +91,11 @@ class Tank(pygame.sprite.Sprite):
 
 
     def dibujar(self, pantalla):
+
+        ##dibujar barra de vida miniatura
+        pygame.draw.rect(pantalla, datos.ROJO, [self.getPosX()-self.getWidth()/2, self.getPosY()+30,self.getWidth(), 10])
+        pygame.draw.rect(pantalla, datos.VERDE, [self.getPosX()-self.getWidth()/2, self.getPosY()+30, self.getWidth() * (self.life / 100), 10])
+
 
         self.explosion.update(pygame.time.get_ticks())
 
@@ -164,6 +170,7 @@ class Tank(pygame.sprite.Sprite):
         for c in self.bala.coordinate:
             pygame.draw.circle(pantalla, datos.AZUL, c, 2)
         # actualizar posicion de la bala si esta esta visible
+
         if self.sprites.has(self.bala):
             self.bala.update()
 
@@ -315,6 +322,7 @@ class Tank(pygame.sprite.Sprite):
         self.sprites.add(self.explosion)
         self.sprites.add(self.dec3)
         self.sprites.add(self.uni3)
+        self.sprites.add(self.Mturno)
         pygame.draw.rect(pantalla, datos.ROJO, [self.posvidaX, self.posvidaY, 200, 30])
         pygame.draw.rect(pantalla, datos.VERDE, [self.posvidaX, self.posvidaY, 200 * (self.life / 100), 30])
     def Eparametros(self):
@@ -336,3 +344,4 @@ class Tank(pygame.sprite.Sprite):
         self.balaImg.kill()
         self.dec3.kill()
         self.uni3.kill()
+        self.Mturno.kill()
