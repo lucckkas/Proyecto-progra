@@ -202,9 +202,9 @@ class Game:  # Creación clase juego
                 if self.boton_reset.click(pygame.mouse.get_pos()):
                     self.START_KEY = True
                     # reinicio turnos
-                    self.turnos = []
-                    for i in range(datos.cantidad_tankes):
-                        self.turnos.append(i)
+                    self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
+                    self.turno_act = self.turnos[0]
+                    self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
 
                 if self.boton_salir.click(pygame.mouse.get_pos()):
                     self.running, self.playing = False, False  # Cierra juego
@@ -217,6 +217,8 @@ class Game:  # Creación clase juego
                     self.START_KEY = True
                     # reinicio turnos
                     self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
+                    self.turno_act = self.turnos[0]
+                    self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
 
                 if event.key == pygame.K_BACKSPACE:
                     self.BACK_KEY = True
