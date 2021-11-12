@@ -1,9 +1,16 @@
 import random as r
 
+import datos
+
 
 def mezclar_lista(njugadores):
     aux = []
     turnos = []
+    datos.viento += r.randint(-3, 3)
+    if datos.viento > 10:
+        datos.viento = 10
+    elif datos.viento < -10:
+        datos.viento = -10
 
     for i in range(njugadores):
         aux.append(i)

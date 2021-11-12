@@ -274,6 +274,9 @@ class Tank(pygame.sprite.Sprite):
     def getPow(self):
         return self.potencia
 
+    def getPos(self):
+        return self.rect.center
+
     def getPosX(self):
         return self.rect.centerx
 

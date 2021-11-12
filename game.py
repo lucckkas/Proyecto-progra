@@ -1,12 +1,13 @@
 import pygame
 import sys
+
+import Triangulo
 import datos
 from menu import *
 import Terreno
 import Boton
 import Bandera
 import IA_aleatoria
-import random as r
 from Bala import Bala
 from IMG import Img
 from Bala import Bala
@@ -78,6 +79,9 @@ class Game:  # Creación clase juego
         # bandera
         self.bandera = Bandera.Bandera([datos.tamagno_mapa[0] / 4, 10])
 
+        # triangulo para los turnos
+        self.triangulo = Triangulo.Triangulo(self.mapa.tanques[self.turno_act].getPos())
+
     def game_loop(self):  # Inicio loopeo
         pygame.mixer.music.play()
         while self.playing:  # Mientras siga jugando:
@@ -106,7 +110,10 @@ class Game:  # Creación clase juego
             # dibujar botones
             self.boton_reset.dibujar(self.display)
             self.boton_salir.dibujar(self.display)
+            # dibuja bandera
             self.bandera.dibujar(self.display, pygame.time.get_ticks())
+            # dibuja triangulo para los turnos
+            self.triangulo.dibujar(self.display, pygame.time.get_ticks())
 
             # pruebas lineas en centro
             # self.mapa.check_pos(self.display, self.rojo, 560)
@@ -159,9 +166,9 @@ class Game:  # Creación clase juego
                     if len(self.turnos) == 0:
                         self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
                     self.turno_act = self.turnos[0]
+                    self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
                     self.ultimo_tiro = pygame.time.get_ticks()
                     self.total_balas -= 1
-                    datos.viento = r.randint(-10, 10)
 
             # reinicio del mundo
         self.mapa.fin = False
@@ -227,9 +234,9 @@ class Game:  # Creación clase juego
                             if len(self.turnos) == 0:
                                 self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
                             self.turno_act = self.turnos[0]
+                            self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
                             self.ultimo_tiro = pygame.time.get_ticks()
                             self.total_balas -= 1
-                            datos.viento = r.randint(-10, 10)
 
                 if event.key == pygame.K_1:
                     if self.turno_act < self.cantidad_human:

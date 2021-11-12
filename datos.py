@@ -89,12 +89,12 @@ grosor = 2
 
 viento = 10
 # tanke
-cantidad_tankes = 4
+cantidad_tankes = 5
 balas_60mm = 10
 balas_perforantes = 10
 balas_105mm = 10
 
-cantidad_IA = 1
+cantidad_IA = 5
 # bala dmg
 dagno_60mm = 30
 dagno_perforante = 40
