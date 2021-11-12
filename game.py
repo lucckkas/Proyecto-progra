@@ -98,6 +98,10 @@ class Game:  # Creación clase juego
             # dibujar terreno
             self.mapa.dibujar_terreno(self.display, datos.NEGRO)
 
+            for i in range(len(self.mapa.tanques)):
+                self.mapa.tanques[i].Eparametros()
+            self.mapa.tanques[self.turno_act].Aparametros(self.display)
+
             # imprimir empate si es que es el caso
             if self.total_balas == 0:
                 empateI = Img(datos.tamagno_mapa[0] / 2, datos.tamagno_mapa[1] / 2,
@@ -105,8 +109,15 @@ class Game:  # Creación clase juego
                 self.display.blit(empateI.image, (datos.tamagno_mapa[0] / 2 - empateI.getWidth() / 2,
                                                   datos.tamagno_mapa[1] / 2 + empateI.getHeight() / 2))
 
+
+
+
+            #
+
             # dibujar tanques
             self.mapa.dibujar_tanques(self.display)
+
+
             # dibujar botones
             self.boton_reset.dibujar(self.display)
             self.boton_salir.dibujar(self.display)
