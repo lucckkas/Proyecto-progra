@@ -257,22 +257,6 @@ class Terreno:
 
     # ----------------------------------fin de creacion mapas diferentes---------------------------------------------
 
-    # --------------------funciones de datos y estadisticas (consola)----------------
-    def mostrar_datos(self):  # muestra la lista de alturas
-        for x in self.alturas:
-            print(x)
-
-    # funcion para obtener posicion eje x aleatorea #
-    def posiscion_x_alazar(self):
-        x = r.randint(0, d.largo_mitad - 1)
-        return x
-
-    def check_pos(self, screen, color, i):
-        pygame.draw.line(screen, color, (i, d.alto), (i, 0), 2)  # usado para ver posicion en mapa al darle un punto
-
-    def chech_largo(self, screen, color, i, x):  # usado para revisar las distancias entre los tanques
-        pygame.draw.line(screen, color, (i, x), (i - d.largo_mitad, x), 2)
-        pygame.draw.line(screen, color, (i, x), (i + d.largo_mitad, x), 2)
 
     # -----------------funciones de dibujado del terreno----------------------------
 
@@ -291,10 +275,6 @@ class Terreno:
 
     # funcion que verifica colicion con terreno (cualquier cosa)
 
-    def coliciona_terreno(self, pos_x, pos_y):  # sistema de colicion no usado
-        if self.alturas[pos_x] < pos_y:
-            # print("colicion")
-            pass
 
     def colicion_bala(self, tanque):  # colicion usada para la bala con el terreno
 
@@ -318,41 +298,6 @@ class Terreno:
             tanque.explosion.iniciar(tanque.bala.getPos(), tanque.bala.get_diametro())
             tanque.bala.detener()
 
-    def colicion_tank(self):  # colicion usada para la bala y el tanque (falta mejorar para que sea dinamica)
-
-        # tanque 1
-        offsetX = self.tanques[0].getWidth() / 2
-        offsetY = self.tanques[0].getHeight() / 2
-        tank1x = self.tanques[0].getPosX()
-        tank1y = self.tanques[0].getPosY()
-        bala1x = self.tanques[0].bala.getPos_X()
-        bala1y = self.tanques[0].bala.getPos_Y()
-        # tanque 2
-        bala2x = self.tanques[1].bala.getPos_X()
-        bala2y = self.tanques[1].bala.getPos_Y()
-        tank2x = self.tanques[1].getPosX()
-        tank2y = self.tanques[1].getPosY()
-
-        # destruccion tanque 1
-        if ((tank1x - offsetX <= bala1x <= tank1x + offsetX) and (
-                tank1y - offsetY <= bala1y <= tank1y + offsetY)):
-            # print("tanque1 bala1")
-            self.fin = True
-
-        if ((tank1x - offsetX <= bala2x <= tank1x + offsetX) and (
-                tank1y - offsetY <= bala2y <= tank1y + offsetY)):
-            # print("tanque1 bala2")
-            self.fin = True
-
-        if ((tank2x - offsetX <= bala1x <= tank2x + offsetX) and (
-                tank2y - offsetY <= bala1y <= tank2y + offsetY)):
-            # print("tanque2 bala1")
-            self.fin = True
-
-        if ((tank2x - offsetX <= bala2x <= tank2x + offsetX) and (
-                tank2y - offsetY <= bala2y <= tank2y + offsetY)):
-            # print("tanque2 bala2")
-            self.fin = True
 
     def colisionSprite(self, tank, bala, sonidoIm, sonidoDead):
         tankX = tank.getPosX()
@@ -406,12 +351,6 @@ class Terreno:
             i.bala.reinicia_lista()
 
     # ---------------------------funcion de generar tanques en el terreno-------------------------------
-    def crear_tanque_pruebas(self):
-        n_pos = 10
-
-        Tanque = Tank(d.tanque(1), (n_pos * 2), (self.alturas[n_pos]), d.cagnon(1))
-        self.tanques.append(Tanque)
-        self.tanques.append(Tanque)
 
     def crear_tanque_pos(self):  # funcion usada para generar tanques en el terreno
         orden = IA_aleatoria.mezclar_lista(d.cantidad_tankes)
