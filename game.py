@@ -143,8 +143,6 @@ class Game:  # Creación clase juego
         self.mapa.fin = False
         self.mapa.alturas = []
         self.mapa.crea_terreno()
-        for i in range(datos.cantidad_tankes):
-            self.mapa.matar_tanque(0)
         self.mapa.crear_tanque_pos()
 
     def check_events(self):  # Checkea que botones presiona el usuario
