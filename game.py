@@ -75,7 +75,7 @@ class Game:  # Creación clase juego
         self.ultimo_tiro = 0  # lleva el tiempo para limitar que tan seguido disparan
 
         # bandera
-        self.bandera = Bandera.Bandera([datos.tamagno_mapa[0]*3 / 4, 10])
+        self.bandera = Bandera.Bandera([datos.tamagno_mapa[0] * 3 / 4, 10])
 
         # triangulo para los turnos
         self.triangulo = Triangulo.Triangulo(self.mapa.tanques[self.turno_act].getPos())
@@ -105,15 +105,8 @@ class Game:  # Creación clase juego
             # dibujar terreno
             self.mapa.dibujar_terreno(self.display, datos.NEGRO)
 
-            if self.cantidad_human == 1000:  # FIXME no funciona, los tankes que mueren antes no disparan
-                empateI = Img(datos.tamagno_mapa[0] / 2, datos.tamagno_mapa[1] / 2,
-                              datos.abrir(datos.carpeta_texto, "empate.png"))
-                self.display.blit(empateI.image, (datos.tamagno_mapa[0] / 2 - empateI.getWidth() / 2,
-                                                  datos.tamagno_mapa[1] / 2 + empateI.getHeight() / 2))
-
             # dibujar tanques
             self.mapa.dibujar_tanques(self.display)
-
 
             # dibujar botones
             self.boton_reset.dibujar(self.display)
@@ -141,9 +134,8 @@ class Game:  # Creación clase juego
 
             # disparo por "IA"
             if self.turno_act >= self.cantidad_human:
-                if not self.mapa.tanques[self.turno_act].bala.disparado\
-                        and pygame.time.get_ticks() - self.ultimo_tiro > 500\
-                        and self.mapa.tanques[self.turno_act].vivo():
+                if not self.mapa.tanques[self.turno_act].bala.disparado \
+                        and pygame.time.get_ticks() - self.ultimo_tiro > 500:
                     self.mapa.tanques[self.turno_act].dispararIA(
                         self.IAs[self.turno_act - self.cantidad_human].disparar())
 
@@ -207,10 +199,8 @@ class Game:  # Creación clase juego
                 if event.key == pygame.K_SPACE:
                     if self.turno_act < self.cantidad_human:
                         if (not self.mapa.tanques[self.turno_act].bala.disparado  # tiene bala en el aire
-                                and self.mapa.tanques[self.turno_act].tiene_balas())\
-                                and pygame.time.get_ticks() - self.ultimo_tiro > 500\
-                                and self.mapa.tanques[self.turno_act].vivo():
-
+                            and self.mapa.tanques[self.turno_act].tiene_balas()) \
+                                and pygame.time.get_ticks() - self.ultimo_tiro > 500:
                             self.mapa.tanques[self.turno_act].disparar()
 
                 if event.key == pygame.K_1:
@@ -295,9 +285,36 @@ class Game:  # Creación clase juego
         if len(self.turnos) == 0:
             self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
         self.turno_act = self.turnos[0]
+        if self.final_del_juego():
+            self.triangulo.kill()
+            return False
         if not self.mapa.tanques[self.turno_act].vivo():
             self.sig_turno()
-
         self.mapa.tanques[self.turno_act].Aparametros(self.display)  # muestra info nuevo tank
         self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
         self.ultimo_tiro = pygame.time.get_ticks()
+        return True
+
+    def final_del_juego(self):
+        # caso 1: solo queda un vivo
+        n_tanks_vivos = 0
+        for i in self.mapa.tanques:
+            if i.vivo():
+                n_tanks_vivos += 1
+        if n_tanks_vivos <= 1:
+            return True
+        # caso 2: no quedan balas
+        for i in self.mapa.tanques:
+            if i.tiene_balas() and i.vivo():
+                return False
+        return True
+
+    def ganadores(self):
+        ganadores = []
+        max_kills = 0
+        for i in self.mapa.tanques:
+            if i.kills > max_kills:
+                max_kills = i.kills
+                ganadores = []
+            if i.kills == max_kills:
+                ganadores.append(i)

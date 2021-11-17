@@ -100,9 +100,9 @@ dagno_60mm = 30
 dagno_perforante = 40
 dagno_105mm = 50
 # bala tamagno explosion
-tam_exp_60mm = 40
-tam_exp_perforante = 60
-tam_exp_105mm = 80
+tam_exp_60mm = 30
+tam_exp_perforante = 45
+tam_exp_105mm = 60
 
 # volumen
 Vbala1 = 0.1
