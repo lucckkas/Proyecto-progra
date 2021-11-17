@@ -306,11 +306,11 @@ class Tank(pygame.sprite.Sprite):
         self.rect.centery = nuevo_x
 
     def tiene_balas(self):
-        if self.inventarioF == 0:
+        if self.inventario1 == 0 and self.inventario2 == 0 and self.inventario3 == 0:
             return False
         return True
 
-    def Aparametros(self,pantalla):
+    def Aparametros(self):
         self.sprites.add(self.imgPower)
         self.sprites.add(self.cent)
         self.sprites.add(self.dec)

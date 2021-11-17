@@ -178,7 +178,7 @@ class Game:  # Creación clase juego
                     self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
                     self.turno_act = self.turnos[0]
                     self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
-                    self.mapa.tanques[self.turno_act].Aparametros(self.display)
+                    self.mapa.tanques[self.turno_act].Aparametros()
 
                 if event.key == pygame.K_BACKSPACE:
                     self.BACK_KEY = True
@@ -286,11 +286,12 @@ class Game:  # Creación clase juego
             self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
         self.turno_act = self.turnos[0]
         if self.final_del_juego():
-            self.triangulo.kill()
+            print("F")
+            self.triangulo.borrar()
             return False
         if not self.mapa.tanques[self.turno_act].vivo():
             self.sig_turno()
-        self.mapa.tanques[self.turno_act].Aparametros(self.display)  # muestra info nuevo tank
+        self.mapa.tanques[self.turno_act].Aparametros()  # muestra info nuevo tank
         self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
         self.ultimo_tiro = pygame.time.get_ticks()
         return True
@@ -298,16 +299,21 @@ class Game:  # Creación clase juego
     def final_del_juego(self):
         # caso 1: solo queda un vivo
         n_tanks_vivos = 0
+        nohaybalas = True  # comenzamos asumiento que no hay balas
         for i in self.mapa.tanques:
             if i.vivo():
                 n_tanks_vivos += 1
-        if n_tanks_vivos <= 1:
+        if n_tanks_vivos <= 1:  # nunca deberia ser menor pero por si acaso comparo menor igual
+            print("Todos muertos")
             return True
         # caso 2: no quedan balas
         for i in self.mapa.tanques:
-            if i.tiene_balas() and i.vivo():
-                return False
-        return True
+            if i.tiene_balas() and i.vivo() and nohaybalas:  # si hay un tanke vivo con balas no ha terminado
+                nohaybalas = False
+        if nohaybalas:
+            print("Todos sin balas")
+            return True
+        return False
 
     def ganadores(self):
         ganadores = []
