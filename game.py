@@ -124,6 +124,8 @@ class Game:  # Creación clase juego
                 i.cambio_potencia()
                 for j in self.mapa.tanques:
                     if self.mapa.colisionSprite(i, j.bala, self.greatSound, self.hellSound):
+                        if not i.vivo():
+                            self.mapa.tanques[self.turno_act].kills += 1
                         self.sig_turno()
 
             self.window.blit(self.display, (0, 0))  # Alinea display y window -no borrar-
@@ -135,7 +137,7 @@ class Game:  # Creación clase juego
             # disparo por "IA"
             if self.turno_act >= self.cantidad_human:
                 if not self.mapa.tanques[self.turno_act].bala.disparado \
-                        and pygame.time.get_ticks() - self.ultimo_tiro > 500:
+                        and pygame.time.get_ticks() - self.ultimo_tiro > 5:
                     self.mapa.tanques[self.turno_act].dispararIA(
                         self.IAs[self.turno_act - self.cantidad_human].disparar())
 
@@ -284,8 +286,8 @@ class Game:  # Creación clase juego
             self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
         self.turno_act = self.turnos[0]
         if self.final_del_juego():
-            print("F")
             self.triangulo.borrar()
+            print(len(self.ganadores()))
             return False
         if not self.mapa.tanques[self.turno_act].vivo():
             self.sig_turno()
@@ -301,13 +303,16 @@ class Game:  # Creación clase juego
         for i in self.mapa.tanques:
             if i.vivo():
                 n_tanks_vivos += 1
+                if n_tanks_vivos == 2:  # si es dos corto el bucle ya que solo importa si es mayor a 1 o no
+                    break
         if n_tanks_vivos <= 1:  # nunca deberia ser menor pero por si acaso comparo menor igual
             print("Todos muertos")
             return True
         # caso 2: no quedan balas
         for i in self.mapa.tanques:
-            if i.tiene_balas() and i.vivo() and nohaybalas:  # si hay un tanke vivo con balas no ha terminado
+            if i.tiene_balas() and i.vivo():  # si hay un tanke vivo con balas no ha terminado
                 nohaybalas = False
+                break  # con encontrar 1 tanke vivo con balas no necesito ver el resto
         if nohaybalas:
             print("Todos sin balas")
             return True
@@ -322,3 +327,5 @@ class Game:  # Creación clase juego
                 ganadores = []
             if i.kills == max_kills:
                 ganadores.append(i)
+        print(max_kills)
+        return ganadores
