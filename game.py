@@ -163,7 +163,7 @@ class Game:  # Creación clase juego
                     self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
                     self.turno_act = self.turnos[0]
                     self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
-                    self.mapa.tanques[self.turno_act].Aparametros(self.display)
+                    self.mapa.tanques[self.turno_act].Aparametros()
 
                 if self.boton_salir.click(pygame.mouse.get_pos()):
                     self.running, self.playing = False, False  # Cierra juego
