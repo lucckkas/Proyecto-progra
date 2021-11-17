@@ -289,15 +289,18 @@ class Terreno:
             tanque.explosion.iniciar(tanque.bala.getPos(), tanque.bala.get_diametro())
             tanque.bala.detener()
             # introducir funciones que hagan cosas con la bala colicion
+            return True
 
         if posx <= 1:
             tanque.explosion.iniciar(tanque.bala.getPos(), tanque.bala.get_diametro())
             tanque.bala.detener()
+            return True
 
         if posx >= d.largo_mitad - 1:
             tanque.explosion.iniciar(tanque.bala.getPos(), tanque.bala.get_diametro())
             tanque.bala.detener()
-
+            return True
+        return False
 
     def colisionSprite(self, tank, bala, sonidoIm, sonidoDead):
         tankX = tank.getPosX()
@@ -313,10 +316,11 @@ class Terreno:
             tank.updateLife(bala.dagno)
             if not tank.vivo():
                 sonidoDead.play()
-                return True
             else:
                 sonidoIm.play()
-                return False
+            return True
+        else:
+            return False
 
     # ---------------------funciones que cambian el terreno-----------------------------
 
