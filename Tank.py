@@ -174,7 +174,7 @@ class Tank(pygame.sprite.Sprite):
             self.bala.update()
 
         # dibujar los sprites que esten en el grupo
-        self.sprites.draw(pantalla)
+        #self.sprites.draw(pantalla)
 
     def disparar(self):
         # disparar la bala dependiendo desde la punta de la mira
