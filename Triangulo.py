@@ -12,24 +12,29 @@ class Triangulo(pygame.sprite.Sprite):
         self.sube = False
         self.rect.x = pos[0]
         self.rect.y = pos[1]
+        self.mostrar = True
 
     def dibujar(self, pantalla, ahora):
-        pantalla.blit(self.image, [self.rect.x, self.rect.y + self.cont - 35])
-        if ahora - self.tiempo > 20:
-            # cambia imagenes
-            self.image = self.image = pygame.image.load(datos.abrir(
-                datos.carpeta_tanke, "turno.png"))
-            self.tiempo = pygame.time.get_ticks()
+        if self.mostrar:
+            pantalla.blit(self.image, [self.rect.x, self.rect.y + self.cont - 35])
+            if ahora - self.tiempo > 20:
+                # cambia imagenes
+                self.image = self.image = pygame.image.load(datos.abrir(
+                    datos.carpeta_tanke, "turno.png"))
+                self.tiempo = pygame.time.get_ticks()
 
-            if self.sube:
-                self.cont -= 1
-            else:
-                self.cont += 1
+                if self.sube:
+                    self.cont -= 1
+                else:
+                    self.cont += 1
 
-            if self.cont <= -5:
-                self.sube = False
-            if self.cont >= 5:
-                self.sube = True
+                if self.cont <= -5:
+                    self.sube = False
+                if self.cont >= 5:
+                    self.sube = True
 
     def mover(self, pos):
         self.rect.center = pos
+
+    def borrar(self):
+        self.mostrar = False

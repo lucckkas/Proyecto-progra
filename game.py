@@ -73,23 +73,24 @@ class Game:  # Creación clase juego
             self.IAs.append(IA_aleatoria.IA_aleatoria())
 
         self.ultimo_tiro = 0  # lleva el tiempo para limitar que tan seguido disparan
-        self.total_balas = (datos.cantidad_tankes * (datos.balas_60mm + datos.balas_perforantes + datos.balas_105mm))
 
         # bandera
-        self.bandera = Bandera.Bandera([datos.tamagno_mapa[0]*3 / 4, 10])
+        self.bandera = Bandera.Bandera([datos.tamagno_mapa[0] * 3 / 4, 10])
 
         # triangulo para los turnos
         self.triangulo = Triangulo.Triangulo(self.mapa.tanques[self.turno_act].getPos())
 
+        # mostrar info tank actual
+        # self.mapa.tanques[self.turno_act].Aparametros(self.display)
+
     def game_loop(self):  # Inicio loopeo
         pygame.mixer.music.play()
         while self.playing:  # Mientras siga jugando:
-            if not self.mapa.tanques[self.turno_act].vivo():
-                self.turnos.remove(self.turno_act)
-                if len(self.turnos) == 0:
-                    self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
-                self.turno_act = self.turnos[0]
-                self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
+            # destruir terreno
+            self.mapa.destruir_terreno()
+
+            # actualizar posision tanque
+            self.mapa.actualiza_postanque()
 
             self.check_events()  # Llamado a que checkee eventos
 
@@ -104,20 +105,8 @@ class Game:  # Creación clase juego
             # dibujar terreno
             self.mapa.dibujar_terreno(self.display, datos.NEGRO)
 
-            for i in range(len(self.mapa.tanques)):
-                self.mapa.tanques[i].Eparametros()
-            self.mapa.tanques[self.turno_act].Aparametros(self.display)
-
-            if self.total_balas == 0:  # FIXME no funciona, los tankes que mueren antes no disparan
-                print(self.total_balas)
-                empateI = Img(datos.tamagno_mapa[0] / 2, datos.tamagno_mapa[1] / 2,
-                              datos.abrir(datos.carpeta_texto, "empate.png"))
-                self.display.blit(empateI.image, (datos.tamagno_mapa[0] / 2 - empateI.getWidth() / 2,
-                                                  datos.tamagno_mapa[1] / 2 + empateI.getHeight() / 2))
-
             # dibujar tanques
             self.mapa.dibujar_tanques(self.display)
-
 
             # dibujar botones
             self.boton_reset.dibujar(self.display)
@@ -127,21 +116,17 @@ class Game:  # Creación clase juego
             # dibuja triangulo para los turnos
             self.triangulo.dibujar(self.display, pygame.time.get_ticks())
 
-            # destruir terreno
-            self.mapa.destruir_terreno()
-
-            # actualizar posision tanque
-            self.mapa.actualiza_postanque()
-
             # For definitivo poner dentro todas las mapa.tanques
             for i in self.mapa.tanques:
-                self.mapa.colicion_bala(i)
+                if self.mapa.colicion_bala(i):
+                    self.sig_turno()
                 i.mover_angulo()
                 i.cambio_potencia()
                 for j in self.mapa.tanques:
                     if self.mapa.colisionSprite(i, j.bala, self.greatSound, self.hellSound):
-                        j.kills += 1
-                        print(j.kills)
+                        if not i.vivo():
+                            self.mapa.tanques[self.turno_act].kills += 1
+                        self.sig_turno()
 
             self.window.blit(self.display, (0, 0))  # Alinea display y window -no borrar-
 
@@ -151,25 +136,15 @@ class Game:  # Creación clase juego
 
             # disparo por "IA"
             if self.turno_act >= self.cantidad_human:
-                if not self.mapa.tanques[self.turno_act].bala.disparado\
-                        and pygame.time.get_ticks() - self.ultimo_tiro > 1000\
-                        and self.mapa.tanques[self.turno_act].vivo():  # tiempo entre disparos
+                if not self.mapa.tanques[self.turno_act].bala.disparado \
+                        and pygame.time.get_ticks() - self.ultimo_tiro > 5:
                     self.mapa.tanques[self.turno_act].dispararIA(
                         self.IAs[self.turno_act - self.cantidad_human].disparar())
-                    self.turnos.remove(self.turno_act)
-                    if len(self.turnos) == 0:
-                        self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
-                    self.turno_act = self.turnos[0]
-                    self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
-                    self.ultimo_tiro = pygame.time.get_ticks()
-                    self.total_balas -= 1
 
             # reinicio del mundo
         self.mapa.fin = False
         self.mapa.alturas = []
         self.mapa.crea_terreno()
-        for i in range(datos.cantidad_tankes):
-            self.mapa.matar_tanque(0)
         self.mapa.crear_tanque_pos()
 
     def check_events(self):  # Checkea que botones presiona el usuario
@@ -188,6 +163,7 @@ class Game:  # Creación clase juego
                     self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
                     self.turno_act = self.turnos[0]
                     self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
+                    self.mapa.tanques[self.turno_act].Aparametros()
 
                 if self.boton_salir.click(pygame.mouse.get_pos()):
                     self.running, self.playing = False, False  # Cierra juego
@@ -202,6 +178,7 @@ class Game:  # Creación clase juego
                     self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
                     self.turno_act = self.turnos[0]
                     self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
+                    self.mapa.tanques[self.turno_act].Aparametros()
 
                 if event.key == pygame.K_BACKSPACE:
                     self.BACK_KEY = True
@@ -222,18 +199,9 @@ class Game:  # Creación clase juego
                 if event.key == pygame.K_SPACE:
                     if self.turno_act < self.cantidad_human:
                         if (not self.mapa.tanques[self.turno_act].bala.disparado  # tiene bala en el aire
-                                and self.mapa.tanques[self.turno_act].tiene_balas())\
-                                and pygame.time.get_ticks() - self.ultimo_tiro > 1000\
-                                and self.mapa.tanques[self.turno_act].vivo():
-
+                            and self.mapa.tanques[self.turno_act].tiene_balas()) \
+                                and pygame.time.get_ticks() - self.ultimo_tiro > 500:
                             self.mapa.tanques[self.turno_act].disparar()
-                            self.turnos.remove(self.turno_act)
-                            if len(self.turnos) == 0:
-                                self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
-                            self.turno_act = self.turnos[0]
-                            self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
-                            self.ultimo_tiro = pygame.time.get_ticks()
-                            self.total_balas -= 1
 
                 if event.key == pygame.K_1:
                     if self.turno_act < self.cantidad_human:
@@ -310,3 +278,54 @@ class Game:  # Creación clase juego
         text_rect.center = (x, y)  # Centra la imagen del rectangulo
         self.display.blit(text_surface,
                           text_rect)  # Pone el rectangulo con la imagen que contiene el texto en la imagen
+
+    def sig_turno(self):
+        self.mapa.tanques[self.turno_act].Eparametros()  # borra info tank
+        self.turnos.remove(self.turno_act)
+        if len(self.turnos) == 0:
+            self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
+        self.turno_act = self.turnos[0]
+        if self.final_del_juego():
+            self.triangulo.borrar()
+            print(len(self.ganadores()))
+            return False
+        if not self.mapa.tanques[self.turno_act].vivo():
+            self.sig_turno()
+        self.mapa.tanques[self.turno_act].Aparametros()  # muestra info nuevo tank
+        self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
+        self.ultimo_tiro = pygame.time.get_ticks()
+        return True
+
+    def final_del_juego(self):
+        # caso 1: solo queda un vivo
+        n_tanks_vivos = 0
+        nohaybalas = True  # comenzamos asumiento que no hay balas
+        for i in self.mapa.tanques:
+            if i.vivo():
+                n_tanks_vivos += 1
+                if n_tanks_vivos == 2:  # si es dos corto el bucle ya que solo importa si es mayor a 1 o no
+                    break
+        if n_tanks_vivos <= 1:  # nunca deberia ser menor pero por si acaso comparo menor igual
+            print("Todos muertos")
+            return True
+        # caso 2: no quedan balas
+        for i in self.mapa.tanques:
+            if i.tiene_balas() and i.vivo():  # si hay un tanke vivo con balas no ha terminado
+                nohaybalas = False
+                break  # con encontrar 1 tanke vivo con balas no necesito ver el resto
+        if nohaybalas:
+            print("Todos sin balas")
+            return True
+        return False
+
+    def ganadores(self):
+        ganadores = []
+        max_kills = 0
+        for i in self.mapa.tanques:
+            if i.kills > max_kills:
+                max_kills = i.kills
+                ganadores = []
+            if i.kills == max_kills:
+                ganadores.append(i)
+        print(max_kills)
+        return ganadores
