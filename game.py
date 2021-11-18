@@ -1,6 +1,6 @@
 import pygame
 import sys
-
+from Drawer import Drawer
 import Triangulo
 import datos
 from menu import *
@@ -118,6 +118,7 @@ class Game:  # Creación clase juego
 
             # dibujar tanques
             self.mapa.dibujar_tanques(self.display)
+
 
 
             # dibujar botones
