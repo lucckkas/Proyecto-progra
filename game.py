@@ -162,6 +162,7 @@ class Game:  # Creación clase juego
                     # reinicio turnos
                     self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
                     self.turno_act = self.turnos[0]
+                    self.triangulo.mostrar = True
                     self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
                     self.mapa.tanques[self.turno_act].Aparametros()
 
@@ -177,6 +178,7 @@ class Game:  # Creación clase juego
                     # reinicio turnos
                     self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
                     self.turno_act = self.turnos[0]
+                    self.triangulo.mostrar = True
                     self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
                     self.mapa.tanques[self.turno_act].Aparametros()
 
