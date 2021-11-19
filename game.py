@@ -194,7 +194,9 @@ class Game:  # Creación clase juego
                     self.mapa.crear_tanque_pos()  # actualizar despues
 
                 if event.key == pygame.K_m:  # mata tanque en el indice 0
-                    self.mapa.matar_tanque(0)
+                    datos.tamagno_mapa = [1280, 720]
+                    datos.largo_mitad = 1280//2
+                    self.__init__()
 
                 if event.key == pygame.K_SPACE:
                     if self.turno_act < self.cantidad_human:
