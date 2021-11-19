@@ -18,30 +18,23 @@ class Terreno:
     # forma 5 = 3 montañas 2 cañones
     # forma 6 = 2 motañas disparejas 2 cañones
 
-    forma_terreno = r.randint(1, 6)
 
     # lista de tanques en el mapa
-    tanques = []
 
-    # matris de alturas generadas al azar (es la mitad del largo del mapa)
-    alturas = []
-
-    # fin de ejecucion
-    fin = False
-
-    # variables para la creacion del terreno
-
-    alternar_mod = 0
-    lista_largo_mod = []
-    distancia_rec = 0
-    pos_lista_mod = 0
-    altura_inicial = 0
-    cantidad_diviciones = 0
-    tipo_de_mod = 0
 
     # crear terreno
     def __init__(self):
-        pass
+        self.forma_terreno = r.randint(1, 6)
+        self.tanques = []
+        self.fin = False
+        self.alturas = []
+        self.alternar_mod = 0
+        self.lista_largo_mod = []
+        self.distancia_rec = 0
+        self.pos_lista_mod = 0
+        self.altura_inicial = 0
+        self.cantidad_diviciones = 0
+        self.tipo_de_mod = 0
         # construcctor vacio, usar funciones para cambiar cosas
 
     # ------modicadores de terreno---------
