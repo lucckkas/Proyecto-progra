@@ -184,7 +184,7 @@ class Bala(pygame.sprite.Sprite):
         return self.alturamaxima
 
     def get_diametro(self):
-        return self.dagno*4-40
+        return self.tam_explocion*2
 
     def getPos(self):
         if self.rect.centerx > datos.tamagno_mapa[0]-1:

@@ -79,7 +79,7 @@ AZUL = [0, 0, 255]
 
 # variables
 # terreno
-tamagno_mapa = [1280, 720]
+tamagno_mapa = [800, 800]
 forma_terreno = 5
 largo_mitad = (tamagno_mapa[0]//2)
 
@@ -94,15 +94,15 @@ balas_60mm = 10
 balas_perforantes = 10
 balas_105mm = 10
 
-cantidad_IA = 5
+cantidad_IA = 0
 # bala dmg
 dagno_60mm = 30
 dagno_perforante = 40
 dagno_105mm = 50
 # bala tamagno explosion
-tam_exp_60mm = 40
-tam_exp_perforante = 60
-tam_exp_105mm = 80
+tam_exp_60mm = 30
+tam_exp_perforante = 45
+tam_exp_105mm = 60
 
 # volumen
 Vbala1 = 0.1

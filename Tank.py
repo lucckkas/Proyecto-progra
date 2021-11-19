@@ -90,95 +90,95 @@ class Tank(pygame.sprite.Sprite):
 
 
     def dibujar(self, pantalla):
-
-        ##dibujar barra de vida miniatura
-        pygame.draw.rect(pantalla, datos.ROJO, [self.getPosX()-self.getWidth()/2, self.getPosY()+30,self.getWidth(), 10])
-        pygame.draw.rect(pantalla, datos.VERDE, [self.getPosX()-self.getWidth()/2, self.getPosY()+30, self.getWidth() * (self.life / 100), 10])
-
-
-        self.explosion.update(pygame.time.get_ticks())
-
-        self.mira.rect.centery = self.rect.centery - self.height / 4
-        self.mira.rect.centerx = self.rect.centerx
-        # calcular el nuemero de la centena la decena y la unidad
-        # para usarlo como indice en las imagenes de dichos sprites de la potencia
-        centena = int(self.potencia // 100)
-        decena = int((self.potencia % 100) // 10)
-        unidad = int(((self.potencia % 100) % 10))
-        ############################################################################################
-        # calculos para la altura
-        mil = int(self.bala.get_altura() // 1000)
-        centena1 = int((self.bala.get_altura() % 1000) // 100)
-        decena1 = int(((self.bala.get_altura() % 1000) % 100) // 10)
-        unidad1 = int(((self.bala.get_altura() % 1000) % 100) % 10)
-        #############################################################################################
-        # Calculos para la distancia
-        mil2 = int(math.fabs(self.bala.posxInicio - self.bala.posX) // 1000)
-        centena2 = int((math.fabs(self.bala.posxInicio - self.bala.posX) % 1000) // 100)
-        decena2 = int(((math.fabs(self.bala.posxInicio - self.bala.posX) % 1000) % 100) // 10)
-        unidad2 = int(((math.fabs(self.bala.posxInicio - self.bala.posX) % 100) % 10))
-        # calculo inventario
-        if self.bala.tipo == "60mm.png":
-            self.inventarioF = self.inventario1
-        if self.bala.tipo == "perforante.png":
-            self.inventarioF = self.inventario2
-        if self.bala.tipo == "105mm.png":
-            self.inventarioF = self.inventario3
-        if self.inventarioF == 0:
-            self.disparable = False
-        else:
-            self.disparable = True
-
-        decena3 = int(self.inventarioF // 10)
-        unidad3 = int(self.inventarioF % 10)
-
-        # dibujar barra de vida
+        if self.vivo():
+            ##dibujar barra de vida miniatura
+            pygame.draw.rect(pantalla, datos.ROJO, [self.getPosX()-self.getWidth()/2, self.getPosY()+30,self.getWidth(), 10])
+            pygame.draw.rect(pantalla, datos.VERDE, [self.getPosX()-self.getWidth()/2, self.getPosY()+30, self.getWidth() * (self.life / 100), 10])
 
 
-        # cambiar la imagen dependiendo del indice
-        # cambiar potencia
-        self.cent.camb(self.numImg[centena])
-        self.dec.camb(self.numImg[decena])
-        self.uni.camb(self.numImg[unidad])
-        # cambiar altura
-        self.mil.camb(self.numImg[mil])
-        self.cent1.camb(self.numImg[centena1])
-        self.dec1.camb(self.numImg[decena1])
-        self.uni1.camb(self.numImg[unidad1])
-        # cambiar distancia
-        self.mil2.camb(self.numImg[mil2])
-        self.cent2.camb(self.numImg[centena2])
-        self.dec2.camb(self.numImg[decena2])
-        self.uni2.camb(self.numImg[unidad2])
-        # hacer rotar la mira dependiendo del angulo
-        rotada_img, rotada_pos = self.mira.rotar(self.mira.imagenR, self.angle)
-        self.mira.image = rotada_img
-        self.mira.rect = rotada_pos
+            self.explosion.update(pygame.time.get_ticks())
 
-        # cambiar bala e inventario
-        balaT = self.bala.tipo
+            self.mira.rect.centery = self.rect.centery - self.height / 4
+            self.mira.rect.centerx = self.rect.centerx
+            # calcular el nuemero de la centena la decena y la unidad
+            # para usarlo como indice en las imagenes de dichos sprites de la potencia
+            centena = int(self.potencia // 100)
+            decena = int((self.potencia % 100) // 10)
+            unidad = int(((self.potencia % 100) % 10))
+            ############################################################################################
+            # calculos para la altura
+            mil = int(self.bala.get_altura() // 1000)
+            centena1 = int((self.bala.get_altura() % 1000) // 100)
+            decena1 = int(((self.bala.get_altura() % 1000) % 100) // 10)
+            unidad1 = int(((self.bala.get_altura() % 1000) % 100) % 10)
+            #############################################################################################
+            # Calculos para la distancia
+            mil2 = int(math.fabs(self.bala.posxInicio - self.bala.posX) // 1000)
+            centena2 = int((math.fabs(self.bala.posxInicio - self.bala.posX) % 1000) // 100)
+            decena2 = int(((math.fabs(self.bala.posxInicio - self.bala.posX) % 1000) % 100) // 10)
+            unidad2 = int(((math.fabs(self.bala.posxInicio - self.bala.posX) % 100) % 10))
+            # calculo inventario
+            if self.bala.tipo == "60mm.png":
+                self.inventarioF = self.inventario1
+            if self.bala.tipo == "perforante.png":
+                self.inventarioF = self.inventario2
+            if self.bala.tipo == "105mm.png":
+                self.inventarioF = self.inventario3
+            if self.inventarioF == 0:
+                self.disparable = False
+            else:
+                self.disparable = True
 
-        self.balaImg.camb(datos.abrir(datos.carpeta_balas, balaT))
-        self.dec3.camb(self.numImg[decena3])
-        self.uni3.camb(self.numImg[unidad3])
-        # borrar fonndo imagen
+            decena3 = int(self.inventarioF // 10)
+            unidad3 = int(self.inventarioF % 10)
 
-        self.mira.image.set_colorkey(datos.BLANCO)
+            # dibujar barra de vida
 
-        # recorrer las posiciones donde estuvo la bala y imprimir un punto
-        for c in self.bala.coordinate:
-            pygame.draw.circle(pantalla, datos.AZUL, c, 2)
-        # actualizar posicion de la bala si esta esta visible
 
-        if self.sprites.has(self.bala):
-            self.bala.update()
+            # cambiar la imagen dependiendo del indice
+            # cambiar potencia
+            self.cent.camb(self.numImg[centena])
+            self.dec.camb(self.numImg[decena])
+            self.uni.camb(self.numImg[unidad])
+            # cambiar altura
+            self.mil.camb(self.numImg[mil])
+            self.cent1.camb(self.numImg[centena1])
+            self.dec1.camb(self.numImg[decena1])
+            self.uni1.camb(self.numImg[unidad1])
+            # cambiar distancia
+            self.mil2.camb(self.numImg[mil2])
+            self.cent2.camb(self.numImg[centena2])
+            self.dec2.camb(self.numImg[decena2])
+            self.uni2.camb(self.numImg[unidad2])
+            # hacer rotar la mira dependiendo del angulo
+            rotada_img, rotada_pos = self.mira.rotar(self.mira.imagenR, self.angle)
+            self.mira.image = rotada_img
+            self.mira.rect = rotada_pos
 
-        # dibujar los sprites que esten en el grupo
-        #self.sprites.draw(pantalla)
+            # cambiar bala e inventario
+            balaT = self.bala.tipo
+
+            self.balaImg.camb(datos.abrir(datos.carpeta_balas, balaT))
+            self.dec3.camb(self.numImg[decena3])
+            self.uni3.camb(self.numImg[unidad3])
+            # borrar fonndo imagen
+
+            self.mira.image.set_colorkey(datos.BLANCO)
+
+            # recorrer las posiciones donde estuvo la bala y imprimir un punto
+            for c in self.bala.coordinate:
+                pygame.draw.circle(pantalla, datos.AZUL, c, 2)
+            # actualizar posicion de la bala si esta esta visible
+
+            if self.sprites.has(self.bala):
+                self.bala.update()
+
+            # dibujar los sprites que esten en el grupo
+            self.sprites.draw(pantalla)
 
     def disparar(self):
         # disparar la bala dependiendo desde la punta de la mira
-        if self.disparable:
+        if self.disparable and self.vivo():
             # agregar la bala a los sprites visibles
             self.sprites.add(self.bala)
             if self.bala.tipo == "60mm.png" and self.inventario1 > 0:
@@ -238,6 +238,11 @@ class Tank(pygame.sprite.Sprite):
 
     def getHeight(self):
         return self.height
+
+    def vivo(self):
+        if self.life > 0:
+            return True
+        return False
 
     #############################
     def offsetx(self):
@@ -301,11 +306,11 @@ class Tank(pygame.sprite.Sprite):
         self.rect.centery = nuevo_x
 
     def tiene_balas(self):
-        if self.inventarioF == 0:
+        if self.inventario1 == 0 and self.inventario2 == 0 and self.inventario3 == 0:
             return False
         return True
 
-    def Aparametros(self,pantalla):
+    def Aparametros(self):
         self.sprites.add(self.imgPower)
         self.sprites.add(self.cent)
         self.sprites.add(self.dec)
