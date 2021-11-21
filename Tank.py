@@ -302,8 +302,10 @@ class Tank(pygame.sprite.Sprite):
     def updateLife(self, resto):
         self.life = self.life - resto
 
-    def actualiza_tanques(self, nuevo_x):
-        self.rect.centery = nuevo_x
+    def actualiza_tanques(self, nuevo_y):
+        caida = nuevo_y - self.rect.centery
+        self.life -= caida * caida / 200
+        self.rect.centery = nuevo_y
 
     def tiene_balas(self):
         if self.inventario1 == 0 and self.inventario2 == 0 and self.inventario3 == 0:

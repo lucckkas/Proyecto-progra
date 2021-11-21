@@ -118,12 +118,11 @@ class Game:  # Creación clase juego
 
             # For definitivo poner dentro todas las mapa.tanques
             for i in self.mapa.tanques:
-                if self.mapa.colicion_bala(i):
-                    self.sig_turno()
                 i.mover_angulo()
                 i.cambio_potencia()
                 for j in self.mapa.tanques:
-                    if self.mapa.colisionSprite(i, j.bala, self.greatSound, self.hellSound):
+                    if self.mapa.colisionSprite(i, j.bala, self.greatSound, self.hellSound)\
+                            or self.mapa.colicion_bala(i):
                         if not i.vivo():
                             if i == self.mapa.tanques[self.turno_act]:
                                 print(i)
