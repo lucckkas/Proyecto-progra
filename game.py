@@ -125,7 +125,11 @@ class Game:  # Creación clase juego
                 for j in self.mapa.tanques:
                     if self.mapa.colisionSprite(i, j.bala, self.greatSound, self.hellSound):
                         if not i.vivo():
-                            self.mapa.tanques[self.turno_act].kills += 1
+                            if i == self.mapa.tanques[self.turno_act]:
+                                print(i)
+                                self.mapa.tanques[self.turno_act].kills -= 1
+                            else:
+                                self.mapa.tanques[self.turno_act].kills += 1
                         self.sig_turno()
 
             self.window.blit(self.display, (0, 0))  # Alinea display y window -no borrar-
