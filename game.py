@@ -331,5 +331,4 @@ class Game:  # Creación clase juego
                 ganadores = []
             if i.kills == max_kills:
                 ganadores.append(i)
-        print(max_kills)
         return ganadores
