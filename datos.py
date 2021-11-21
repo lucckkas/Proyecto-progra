@@ -105,9 +105,9 @@ tam_exp_perforante = 45
 tam_exp_105mm = 60
 
 # volumen
-Vbala1 = 0.1
-Vbala2 = 0.1
-Vbala3 = 0.1
-VHell = 0.2
-VGreat = 0.2
-VMusica = 0.02
+Vbala1 = 0
+Vbala2 = 0
+Vbala3 = 0
+VHell = 0
+VGreat = 0
+VMusica = 0
