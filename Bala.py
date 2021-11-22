@@ -187,18 +187,21 @@ class Bala(pygame.sprite.Sprite):
         return self.tam_explocion*2
 
     def getPos(self):
-        if self.rect.centerx > datos.tamagno_mapa[0]-1:
-            self.rect.centerx = datos.tamagno_mapa[0]-1
         return self.rect.center
 
     def getPos_X(self):
-        if self.rect.centerx > datos.tamagno_mapa[0]-1:
-            self.rect.centerx = datos.tamagno_mapa[0]-1
         return self.rect.centerx
 
     def getPos_Y(self):
         return self.rect.centery
 
+    def en_rad_exp(self, pos):
+        compx = math.pow((self.getPos_X()-pos[0]), 2)
+        compy = math.pow((self.getPos_Y()-pos[1]), 2)
+        distancia = math.sqrt(compx + compy)
+        if distancia <= self.tam_explocion + 15:
+            return self.dagno*750/(distancia*distancia)
+        return 0
     # mueve la bala al 200,0
     def goto0_0(self):
         self.rect.centerx = 200

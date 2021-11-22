@@ -122,7 +122,7 @@ class Game:  # Creación clase juego
                 i.cambio_potencia()
                 for j in self.mapa.tanques:
                     if self.mapa.colisionSprite(i, j.bala, self.greatSound, self.hellSound)\
-                            or self.mapa.colicion_bala(i):
+                            or self.mapa.colicion_bala(i, self.mapa.tanques):
                         if not i.vivo():
                             if i == self.mapa.tanques[self.turno_act]:
                                 print(i)
@@ -292,6 +292,9 @@ class Game:  # Creación clase juego
         if len(self.turnos) == 0:
             self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
         self.turno_act = self.turnos[0]
+        # actualizo el terreno para que se detecten correctamente los tankes muertos por caida
+        self.mapa.destruir_terreno()
+        self.mapa.actualiza_postanque()
         if self.final_del_juego():
             self.triangulo.borrar()
             print(len(self.ganadores()))

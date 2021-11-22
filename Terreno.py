@@ -268,29 +268,22 @@ class Terreno:
 
     # funcion que verifica colicion con terreno (cualquier cosa)
 
+    def colicion_bala(self, tanque, list_tankes):  # colicion usada para la bala con el terreno
 
-    def colicion_bala(self, tanque):  # colicion usada para la bala con el terreno
-
-        posx = tanque.bala.getPos_X() // 2
+        posx = tanque.bala.getPos_X()
         posy = tanque.bala.getPos_Y()
+        if posx > d.tamagno_mapa[0]-1:
+            posx = d.tamagno_mapa[0]-1
 
-        altura = self.alturas[posx]
-        if posy > altura:
-            # print("colicion terreno")
-
+        altura = self.alturas[posx//2]
+        if posy > altura or posx <= 1 or posx == d.tamagno_mapa[0]-1:
+            # print("colicion bala")
             tanque.bala.explotar_terreno()
-            tanque.explosion.iniciar(tanque.bala.getPos(), tanque.bala.get_diametro())
-            tanque.bala.detener()
-            # introducir funciones que hagan cosas con la bala colicion
-            return True
-
-        if posx <= 1:
-            tanque.explosion.iniciar(tanque.bala.getPos(), tanque.bala.get_diametro())
-            tanque.bala.detener()
-            return True
-
-        if posx >= d.largo_mitad - 1:
-            tanque.explosion.iniciar(tanque.bala.getPos(), tanque.bala.get_diametro())
+            if posy < 0:
+                posy = 0
+            tanque.explosion.iniciar([posx, posy], tanque.bala.get_diametro())
+            for i in list_tankes:
+                i.life -= tanque.bala.en_rad_exp(i.getPos())
             tanque.bala.detener()
             return True
         return False
