@@ -21,7 +21,7 @@ class Tank(pygame.sprite.Sprite):
         # borrar fonndo imagen
         self.rect = self.image.get_rect()
         self.rect.centerx = posX
-        self.rect.centery = posY
+        self.rect.bottom = posY + 10  # sumo 10 pixeles a los tankes para evitar que se apoyen en colinas super enanas
         self.height = self.image.get_height()
         self.width = self.image.get_width()
         self.potencia = 40
@@ -91,10 +91,9 @@ class Tank(pygame.sprite.Sprite):
 
     def dibujar(self, pantalla):
         if self.vivo():
-            ##dibujar barra de vida miniatura
-            pygame.draw.rect(pantalla, datos.ROJO, [self.getPosX()-self.getWidth()/2, self.getPosY()+30,self.getWidth(), 10])
-            pygame.draw.rect(pantalla, datos.VERDE, [self.getPosX()-self.getWidth()/2, self.getPosY()+30, self.getWidth() * (self.life / 100), 10])
-
+            # dibujar barra de vida miniatura
+            pygame.draw.rect(pantalla, datos.ROJO, [self.getPosX()-self.getWidth()/2, self.getPosY()-35, self.getWidth(), 7])
+            pygame.draw.rect(pantalla, datos.VERDE, [self.getPosX()-self.getWidth()/2, self.getPosY()-35, self.getWidth() * (self.life / 100), 7])
 
             self.explosion.update(pygame.time.get_ticks())
 
@@ -302,9 +301,14 @@ class Tank(pygame.sprite.Sprite):
     def updateLife(self, resto):
         self.life = self.life - resto
 
-    def actualiza_tanques(self, nuevo_x):
-        self.rect.centery = nuevo_x
-
+    def actualiza_tanques(self, nuevo_y):
+        caida = nuevo_y + 9 - self.rect.bottom
+        if caida > 0:
+            self.life -= caida * caida / 200
+        if nuevo_y >= datos.tamagno_mapa[1]:
+            print("tanke eliminado por salir del mapa")
+            self.life = -1
+        self.rect.bottom = nuevo_y + 10
     def tiene_balas(self):
         if self.inventario1 == 0 and self.inventario2 == 0 and self.inventario3 == 0:
             return False
