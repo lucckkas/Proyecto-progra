@@ -103,7 +103,7 @@ tam_exp_60mm = 30
 tam_exp_perforante = 45
 tam_exp_105mm = 60
 
-# volumen
+# volumen (numeros del 0 al 100)
 Vbala1 = 0
 Vbala2 = 0
 Vbala3 = 0

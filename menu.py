@@ -168,11 +168,6 @@ class MenuAjustes(Menu):  # Creación clase menu de ajustes
         while self.run_display:
             self.game.check_events()
             if (self.game.START_KEY or self.game.BACK_KEY) and not Menu.insertando:
-                datos.cantidad_tankes = int(self.cajas_texto[0].txt)
-                datos.cantidad_IA = int(self.cajas_texto[1].txt)
-                datos.GRAVEDAD_TIERRA = float(self.cajas_texto[2].txt)
-                datos.tamagno_mapa[0] = int(self.cajas_texto[3].txt)
-                datos.tamagno_mapa[1] = int(self.cajas_texto[4].txt)
                 datos.efecto_entorno = self.check.activado
                 self.game.__init__()
                 self.game.curr_menu = self.game.main_menu

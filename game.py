@@ -51,12 +51,12 @@ class Game:  # Creación clase juego
         self.bala3Sound = pygame.mixer.Sound(datos.abrir(datos.carpeta_sonidos, "B4VAPIAS.wav"))
         self.greatSound = pygame.mixer.Sound(datos.abrir(datos.carpeta_sonidos, "B4VGREAT.wav"))
         self.hellSound = pygame.mixer.Sound(datos.abrir(datos.carpeta_sonidos, "B4VHELL.wav"))
-        self.bala1Sound.set_volume(datos.Vbala1)
-        self.bala2Sound.set_volume(datos.Vbala2)
-        self.bala3Sound.set_volume(datos.Vbala3)
-        self.greatSound.set_volume(datos.VGreat)
-        self.hellSound.set_volume(datos.VHell)
-        pygame.mixer.music.set_volume(datos.VMusica)
+        self.bala1Sound.set_volume(datos.Vbala1/100)
+        self.bala2Sound.set_volume(datos.Vbala2/100)
+        self.bala3Sound.set_volume(datos.Vbala3/100)
+        self.greatSound.set_volume(datos.VGreat/100)
+        self.hellSound.set_volume(datos.VHell/100)
+        pygame.mixer.music.set_volume(datos.VMusica/100)
 
         # botones
         self.boton_reset = Boton.Boton("reset.png", [datos.tamagno_mapa[0] / 2, 40], [200, 60])
