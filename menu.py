@@ -149,6 +149,7 @@ class MenuCreditos(Menu):  # Creación clase menu de creditos.
             self.game.dibuja_texto('Luckas Strnad', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 110)
             self.blit_screen()
 
+
 class MenuAjustes(Menu):  # Creación clase menu de ajustes
 
     def __init__(self, game):

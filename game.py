@@ -8,7 +8,6 @@ import Terreno
 import Boton
 import Bandera
 import IA_aleatoria
-from IMG import Img
 from Bala import Bala
 
 

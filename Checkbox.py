@@ -22,5 +22,3 @@ class Checkbox:
                 self.activado = False
             else:
                 self.activado = True
-
-
