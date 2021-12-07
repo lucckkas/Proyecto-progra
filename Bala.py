@@ -72,6 +72,8 @@ class Bala(pygame.sprite.Sprite):
         self.velocidad_inicialH = math.cos(trans_ang_rad(angulo)) * potencia
         self.disparado = True
         self.alturamaxima = (self.velocidad_inicialV * self.velocidad_inicialV) / (2 * datos.GRAVEDAD_TIERRA)
+        if self.alturamaxima > 9999:
+            self.alturamaxima = 9999
         self.temp = pygame.time.get_ticks()
         self.viento = datos.viento
 

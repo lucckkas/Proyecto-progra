@@ -2,7 +2,7 @@ from Tank import Tank
 
 
 class Drawer:
-    def __init__(self,tanques,pantalla):  # Fixme Creo que no funciona
+    def __init__(self,tanques,pantalla):
         self.tanklist = tanques
         self.pantalla = pantalla
 

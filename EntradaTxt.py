@@ -33,12 +33,13 @@ class EntradaTxt:
             menu.Menu.insertando = False
 
     def agrega_texto(self, event):
-        if self.activado and (48 <= event.key <= 57 or 1073741913 <= event.key <= 1073741922):
+        if self.activado and (48 <= event.key <= 57 or 1073741913 <= event.key <= 1073741923 or event.key == 46):
             self.txt += event.unicode
         elif self.activado and event.key == 8:  # borrar
             self.txt = self.txt[:-1]
         elif self.activado and event.key == 13:  # enter
-            if True:  # TODO comprobar que la entrada sea correcta (quiza deberia recibir la variable a ingresar)
+            if False:  # TODO comprobar que la entrada sea correcta (quiza deberia recibir la variable a ingresar)
                 pass
-            self.activado = False
-            menu.Menu.insertando = False
+            else:
+                self.activado = False
+                menu.Menu.insertando = False

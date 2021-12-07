@@ -192,7 +192,6 @@ class Tank(pygame.sprite.Sprite):
                                self.mira.rect.centery - self.offsety())
 
     def dispararIA(self, angulo_potencia):
-        # TODO: me gustaria que las balas se elijan de forma "inteligente" y no en orden
         if self.inventarioF == 0:
             if self.inventario1 > 0:
                 self.bala = Bala()
