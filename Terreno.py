@@ -53,8 +53,8 @@ class Terreno:
         alazar = r.randint(-2, 2)
         self.altura_inicial = self.altura_inicial + alazar
         # verificar suelo
-        if self.altura_inicial > d.alto - 10:
-            self.altura_inicial = d.alto - 10
+        if self.altura_inicial > d.tamagno_mapa[1] - 10:
+            self.altura_inicial = d.tamagno_mapa[1] - 10
 
         self.alturas.append(self.altura_inicial)
         self.alternar_mod = self.alternar_mod + 1
@@ -63,8 +63,8 @@ class Terreno:
         alazar = r.randint(-1, 7)
         self.altura_inicial = self.altura_inicial + alazar
         # verificar suelo
-        if self.altura_inicial > d.alto - 20:
-            self.altura_inicial = d.alto - 20
+        if self.altura_inicial > d.tamagno_mapa[1] - 20:
+            self.altura_inicial = d.tamagno_mapa[1] - 20
 
         self.alturas.append(self.altura_inicial)
         self.alternar_mod = self.alternar_mod + 1
@@ -74,12 +74,12 @@ class Terreno:
     def dividir_terreno(self):
 
         for largo in range(self.cantidad_diviciones):
-            distancia = d.largo_mitad // self.cantidad_diviciones - (
-                    d.largo_mitad // self.cantidad_diviciones) // self.cantidad_diviciones
+            distancia = d.tamagno_mapa[0]//2 // self.cantidad_diviciones - (
+                    d.tamagno_mapa[0]//2 // self.cantidad_diviciones) // self.cantidad_diviciones
             self.lista_largo_mod.append(distancia)
             self.distancia_rec = self.distancia_rec + distancia
 
-        dis_faltante = d.largo_mitad - self.distancia_rec
+        dis_faltante = d.tamagno_mapa[0]//2 - self.distancia_rec
         self.lista_largo_mod.append(dis_faltante)
 
     # ------------guardar variables del terreno-------------
@@ -88,7 +88,7 @@ class Terreno:
 
         self.dividir_terreno()
 
-        for x in range(d.largo_mitad):  # largo del mapa
+        for x in range(d.tamagno_mapa[0]//2):  # largo del mapa
 
             # -----------cambio de modo de creacion de terreno--------------
 
@@ -256,7 +256,7 @@ class Terreno:
     def dibujar_terreno(self, screen, color):  # funcion usada para dibujar el terreno
         i = 0
         for palos in self.alturas:
-            pygame.draw.line(screen, color, (i, d.alto), (i, palos), d.grosor)
+            pygame.draw.line(screen, color, (i, d.tamagno_mapa[1]), (i, palos), d.grosor)
             i = i + 2
 
             # ----------comentario dibujar_terreno---------

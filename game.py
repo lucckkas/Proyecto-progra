@@ -3,7 +3,7 @@ import sys
 
 import Triangulo
 import datos
-from menu import *
+import menu
 import Terreno
 import Boton
 import Bandera
@@ -15,7 +15,6 @@ from Bala import Bala
 class Game:  # Creación clase juego
 
     def __init__(self):
-
         pygame.init()  # Inicio de PYGAME en archivo local
         # limitar FPS
         self.clock = pygame.time.Clock()
@@ -38,9 +37,11 @@ class Game:  # Creación clase juego
         self.window = pygame.display.set_mode((self.DISPLAY_W, self.DISPLAY_H))
         self.font_name = datos.abrir(datos.carpeta_archivos,
                                      "8BITWONDERNominal.ttf")  # Definición tipo de fuente (8-bit)
-        self.main_menu = MainMenu(self)
-        self.controls = MenuControles(self)
-        self.credits = MenuCreditos(self)
+        self.main_menu = menu.MainMenu(self)
+        self.controls = menu.MenuControles(self)
+        self.credits = menu.MenuCreditos(self)
+        self.ajustes = menu.MenuAjustes(self)
+
         self.curr_menu = self.main_menu  # Permite visualizar distintos tipos de meus
         self.velocidad_mira = 0
         self.velocidad_potencia = 0
@@ -173,10 +174,14 @@ class Game:  # Creación clase juego
                         self.running, self.playing = False, False  # Cierra juego
                         self.curr_menu.run_display = False
                         sys.exit()
+            else:
+                if event.type == pygame.MOUSEBUTTONDOWN and self.curr_menu == self.ajustes:
+                    for i in self.ajustes.cajas_texto:
+                        i.comprueba_click(pygame.mouse.get_pos())
 
             if event.type == pygame.KEYDOWN:  # Revisa si sigue en el juego
 
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_RETURN and not menu.Menu.insertando:
                     self.START_KEY = True
                     # reinicio turnos
                     self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
@@ -185,7 +190,7 @@ class Game:  # Creación clase juego
                     self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
                     self.mapa.tanques[self.turno_act].Aparametros()
 
-                if event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE and not menu.Menu.insertando:
                     self.BACK_KEY = True
 
                 if event.key == pygame.K_DOWN:
@@ -195,10 +200,10 @@ class Game:  # Creación clase juego
                     self.UP_KEY = True
 
                 # --------------------teclas para hacer pruebas de funcionamiento------------------------
-                if event.key == pygame.K_n:
+                if event.key == pygame.K_n and self.playing:
                     self.mapa.crear_tanque_pos()  # actualizar despues
 
-                if event.key == pygame.K_m:  # mata tanque en el indice 0
+                if event.key == pygame.K_m and self.playing:  # mata tanque en el indice 0
                     datos.tamagno_mapa = [1280, 720]
                     datos.largo_mitad = 1280//2
                     self.__init__()
@@ -251,6 +256,13 @@ class Game:  # Creación clase juego
                     if self.turno_act < self.cantidad_human:
                         if not self.mapa.tanques[self.turno_act].bala.disparado:
                             self.mapa.tanques[self.turno_act].down_apretar()
+
+                # cajas de texto menu ajustes
+                if not self.playing and self.curr_menu == self.ajustes:
+                    for i in self.ajustes.cajas_texto:
+                        if i.activado:
+                            menu.Menu.insertando = True
+                            i.agrega_texto(event)
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
@@ -330,7 +342,7 @@ class Game:  # Creación clase juego
 
     def ganadores(self):
         ganadores = []
-        max_kills = 0
+        max_kills = -1
         for i in self.mapa.tanques:
             if i.kills > max_kills:
                 max_kills = i.kills

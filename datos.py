@@ -67,7 +67,7 @@ carpeta_numeros = abrir(carpeta_texto, "Numeros")
 carpeta_sonidos = abrir(carpeta_archivos, "Sonidos")
 
 # CONSTANTES
-GRAVEDAD_TIERRA = 9.80665
+GRAVEDAD_TIERRA = 9.8
 FPS = 60
 
 # COLORES
@@ -76,18 +76,17 @@ NEGRO = [0, 0, 0]
 ROJO = [255, 0, 0]
 VERDE = [0, 255, 0]
 AZUL = [0, 0, 255]
+GRIS = [220, 220, 220]
+GRIS2 = [190, 190, 190]
 
 # variables
 # terreno
 tamagno_mapa = [800, 800]
 forma_terreno = 5
-largo_mitad = (tamagno_mapa[0]//2)
-
-alto = tamagno_mapa[1]
-
 grosor = 2
 
 viento = 10
+efecto_entorno = "con"
 # tanke
 cantidad_tankes = 5
 balas_60mm = 10

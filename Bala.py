@@ -88,7 +88,7 @@ class Bala(pygame.sprite.Sprite):
         """
         if self.disparado:
             vel = pygame.time.get_ticks() - self.temp
-            vel = vel/150  # esta variable representa el tiempo en las formulas de movimiento
+            vel = vel/140  # esta variable representa el tiempo en las formulas de movimiento
             # fornulas posicion
             self.rect.centerx = self.posX + self.velocidad_inicialH * vel + 0.5 * self.viento/5 * vel * vel
             self.rect.centery = self.posY - self.velocidad_inicialV * vel + 0.5 * datos.GRAVEDAD_TIERRA * vel * vel
@@ -102,7 +102,7 @@ class Bala(pygame.sprite.Sprite):
             # rotacion
             velocidad_horizontal_act = self.velocidad_inicialH + self.viento/5 * vel
             if velocidad_horizontal_act == 0:  # forma cutre de arreglar posible div por 0 XD
-                velocidad_horizontal_act = 0.0000000001
+                velocidad_horizontal_act = 0.00000000001
             velocidad_vertical_act = self.velocidad_inicialV - datos.GRAVEDAD_TIERRA * vel
             if velocidad_horizontal_act < 0:  # si va hacia la izquierda
                 self.ang_act = trans_ang_grad(math.atan((
