@@ -175,6 +175,7 @@ class Game:  # Creación clase juego
                         sys.exit()
             else:
                 if event.type == pygame.MOUSEBUTTONDOWN and self.curr_menu == self.ajustes:
+                    self.ajustes.check.comprueba_click(pygame.mouse.get_pos())
                     for i in self.ajustes.cajas_texto:
                         i.comprueba_click(pygame.mouse.get_pos())
 
