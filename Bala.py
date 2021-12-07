@@ -202,7 +202,7 @@ class Bala(pygame.sprite.Sprite):
         compy = math.pow((self.getPos_Y()-pos[1]), 2)
         distancia = math.sqrt(compx + compy)
         if distancia <= self.tam_explocion + 15:
-            return self.dagno*750/(distancia*distancia)
+            return self.dagno*20/distancia
         return 0
     # mueve la bala al 200,0
     def goto0_0(self):

@@ -126,7 +126,6 @@ class Game:  # Creación clase juego
                             or self.mapa.colicion_bala(i, self.mapa.tanques):
                         if not i.vivo():
                             if i == self.mapa.tanques[self.turno_act]:
-                                print(i)
                                 self.mapa.tanques[self.turno_act].kills -= 1
                             else:
                                 self.mapa.tanques[self.turno_act].kills += 1
@@ -139,7 +138,7 @@ class Game:  # Creación clase juego
             self.clock.tick(datos.FPS)
 
             # disparo por "IA"
-            if self.turno_act >= self.cantidad_human:
+            if self.turno_act >= self.cantidad_human and not self.final_del_juego():
                 if not self.mapa.tanques[self.turno_act].bala.disparado \
                         and pygame.time.get_ticks() - self.ultimo_tiro > 5:
                     self.mapa.tanques[self.turno_act].dispararIA(
@@ -209,7 +208,7 @@ class Game:  # Creación clase juego
                     self.__init__()
 
                 if event.key == pygame.K_SPACE and self.playing:
-                    if self.turno_act < self.cantidad_human:
+                    if self.turno_act < self.cantidad_human and not self.final_del_juego():
                         if (not self.mapa.tanques[self.turno_act].bala.disparado  # tiene bala en el aire
                             and self.mapa.tanques[self.turno_act].tiene_balas()) \
                                 and pygame.time.get_ticks() - self.ultimo_tiro > 500:

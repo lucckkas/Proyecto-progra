@@ -303,7 +303,7 @@ class Tank(pygame.sprite.Sprite):
     def actualiza_tanques(self, nuevo_y):
         caida = nuevo_y + 9 - self.rect.bottom
         if caida > 0:
-            self.life -= caida * caida / 200
+            self.life -= caida * caida / 400
         if nuevo_y >= datos.tamagno_mapa[1]:
             print("tanke eliminado por salir del mapa")
             self.life = -1
