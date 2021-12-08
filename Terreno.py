@@ -250,6 +250,22 @@ class Terreno:
 
     # ----------------------------------fin de creacion mapas diferentes---------------------------------------------
 
+    def crea_terreno_plano(self):
+         self.altura_inicial = 490
+
+         # mapa de 15 modificaciones
+
+            # 1 subida
+            # 0 mantener
+            # -1 bajada
+
+            # --------------dibujar mapa-------------------
+         self.tipo_de_mod = 0
+         lista_mapa = []
+
+         self.cantidad_diviciones = 1 - 1
+
+         self.hacer_terreno(lista_mapa)
 
     # -----------------funciones de dibujado del terreno----------------------------
 

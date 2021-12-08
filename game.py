@@ -308,6 +308,8 @@ class Game:  # Creación clase juego
         self.mapa.destruir_terreno()
         self.mapa.actualiza_postanque()
         if self.final_del_juego():
+            self.mapa.alturas = []
+            self.mapa.crea_terreno_plano()
             self.triangulo.borrar()
             print(len(self.ganadores()))
             return False
