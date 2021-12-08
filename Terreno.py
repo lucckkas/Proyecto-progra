@@ -69,6 +69,10 @@ class Terreno:
         self.alturas.append(self.altura_inicial)
         self.alternar_mod = self.alternar_mod + 1
 
+    def plano_9(self):
+        self.alturas.append(self.altura_inicial)
+        self.alternar_mod = self.alternar_mod + 1
+
     # ---------dividir terreno------------
 
     def dividir_terreno(self):
@@ -110,6 +114,9 @@ class Terreno:
             # mod = solo bajar
             elif self.tipo_de_mod == -1:
                 self.bajada_1()
+
+            elif self.tipo_de_mod == 9:
+                self.plano_9()
 
         # -----------furturos modificadores de terreno------------
 
@@ -259,8 +266,10 @@ class Terreno:
             # 0 mantener
             # -1 bajada
 
+            #9 total plano
+
             # --------------dibujar mapa-------------------
-         self.tipo_de_mod = 0
+         self.tipo_de_mod = 9
          lista_mapa = []
 
          self.cantidad_diviciones = 1 - 1
