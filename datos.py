@@ -85,8 +85,8 @@ tamagno_mapa = [800, 800]
 forma_terreno = 5
 grosor = 2
 
-viento = 10
-efecto_entorno = "con"
+viento = 0
+efecto_entorno = True
 # tanke
 cantidad_tankes = 5
 balas_60mm = 10
@@ -103,7 +103,7 @@ tam_exp_60mm = 30
 tam_exp_perforante = 45
 tam_exp_105mm = 60
 
-# volumen
+# volumen (numeros del 0 al 100)
 Vbala1 = 0
 Vbala2 = 0
 Vbala3 = 0

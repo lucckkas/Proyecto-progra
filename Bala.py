@@ -72,6 +72,8 @@ class Bala(pygame.sprite.Sprite):
         self.velocidad_inicialH = math.cos(trans_ang_rad(angulo)) * potencia
         self.disparado = True
         self.alturamaxima = (self.velocidad_inicialV * self.velocidad_inicialV) / (2 * datos.GRAVEDAD_TIERRA)
+        if self.alturamaxima > 9999:
+            self.alturamaxima = 9999
         self.temp = pygame.time.get_ticks()
         self.viento = datos.viento
 
@@ -200,8 +202,9 @@ class Bala(pygame.sprite.Sprite):
         compy = math.pow((self.getPos_Y()-pos[1]), 2)
         distancia = math.sqrt(compx + compy)
         if distancia <= self.tam_explocion + 15:
-            return self.dagno*750/(distancia*distancia)
+            return self.dagno*20/distancia
         return 0
+
     # mueve la bala al 200,0
     def goto0_0(self):
         self.rect.centerx = 200

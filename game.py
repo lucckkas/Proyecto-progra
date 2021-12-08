@@ -8,7 +8,6 @@ import Terreno
 import Boton
 import Bandera
 import IA_aleatoria
-from IMG import Img
 from Bala import Bala
 
 
@@ -52,12 +51,12 @@ class Game:  # Creación clase juego
         self.bala3Sound = pygame.mixer.Sound(datos.abrir(datos.carpeta_sonidos, "B4VAPIAS.wav"))
         self.greatSound = pygame.mixer.Sound(datos.abrir(datos.carpeta_sonidos, "B4VGREAT.wav"))
         self.hellSound = pygame.mixer.Sound(datos.abrir(datos.carpeta_sonidos, "B4VHELL.wav"))
-        self.bala1Sound.set_volume(datos.Vbala1)
-        self.bala2Sound.set_volume(datos.Vbala2)
-        self.bala3Sound.set_volume(datos.Vbala3)
-        self.greatSound.set_volume(datos.VGreat)
-        self.hellSound.set_volume(datos.VHell)
-        pygame.mixer.music.set_volume(datos.VMusica)
+        self.bala1Sound.set_volume(datos.Vbala1/100)
+        self.bala2Sound.set_volume(datos.Vbala2/100)
+        self.bala3Sound.set_volume(datos.Vbala3/100)
+        self.greatSound.set_volume(datos.VGreat/100)
+        self.hellSound.set_volume(datos.VHell/100)
+        pygame.mixer.music.set_volume(datos.VMusica/100)
 
         # botones
         self.boton_reset = Boton.Boton("reset.png", [datos.tamagno_mapa[0] / 2, 40], [200, 60])
@@ -126,7 +125,6 @@ class Game:  # Creación clase juego
                             or self.mapa.colicion_bala(i, self.mapa.tanques):
                         if not i.vivo():
                             if i == self.mapa.tanques[self.turno_act]:
-                                print(i)
                                 self.mapa.tanques[self.turno_act].kills -= 1
                             else:
                                 self.mapa.tanques[self.turno_act].kills += 1
@@ -139,7 +137,7 @@ class Game:  # Creación clase juego
             self.clock.tick(datos.FPS)
 
             # disparo por "IA"
-            if self.turno_act >= self.cantidad_human:
+            if self.turno_act >= self.cantidad_human and not self.final_del_juego():
                 if not self.mapa.tanques[self.turno_act].bala.disparado \
                         and pygame.time.get_ticks() - self.ultimo_tiro > 5:
                     self.mapa.tanques[self.turno_act].dispararIA(
@@ -176,6 +174,7 @@ class Game:  # Creación clase juego
                         sys.exit()
             else:
                 if event.type == pygame.MOUSEBUTTONDOWN and self.curr_menu == self.ajustes:
+                    self.ajustes.check.comprueba_click(pygame.mouse.get_pos())
                     for i in self.ajustes.cajas_texto:
                         i.comprueba_click(pygame.mouse.get_pos())
 
@@ -209,7 +208,7 @@ class Game:  # Creación clase juego
                     self.__init__()
 
                 if event.key == pygame.K_SPACE and self.playing:
-                    if self.turno_act < self.cantidad_human:
+                    if self.turno_act < self.cantidad_human and not self.final_del_juego():
                         if (not self.mapa.tanques[self.turno_act].bala.disparado  # tiene bala en el aire
                             and self.mapa.tanques[self.turno_act].tiene_balas()) \
                                 and pygame.time.get_ticks() - self.ultimo_tiro > 500:

@@ -1,4 +1,5 @@
 import pygame
+import Checkbox
 import datos
 import EntradaTxt
 
@@ -148,11 +149,13 @@ class MenuCreditos(Menu):  # Creación clase menu de creditos.
             self.game.dibuja_texto('Luckas Strnad', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 110)
             self.blit_screen()
 
+
 class MenuAjustes(Menu):  # Creación clase menu de ajustes
 
     def __init__(self, game):
         super().__init__(game)
         self.cajas_texto = []
+        self.check = Checkbox.Checkbox([500, 200])
         self.cajas_texto.append(EntradaTxt.EntradaTxt([100, 100], datos.cantidad_tankes))
         self.cajas_texto.append(EntradaTxt.EntradaTxt([100, 200], datos.cantidad_IA))
         self.cajas_texto.append(EntradaTxt.EntradaTxt([100, 300], datos.GRAVEDAD_TIERRA))
@@ -165,11 +168,7 @@ class MenuAjustes(Menu):  # Creación clase menu de ajustes
         while self.run_display:
             self.game.check_events()
             if (self.game.START_KEY or self.game.BACK_KEY) and not Menu.insertando:
-                datos.cantidad_tankes = int(self.cajas_texto[0].txt)
-                datos.cantidad_IA = int(self.cajas_texto[1].txt)
-                datos.GRAVEDAD_TIERRA = float(self.cajas_texto[2].txt)
-                datos.tamagno_mapa[0] = int(self.cajas_texto[3].txt)
-                datos.tamagno_mapa[1] = int(self.cajas_texto[4].txt)
+                datos.efecto_entorno = self.check.activado
                 self.game.__init__()
                 self.game.curr_menu = self.game.main_menu
                 self.run_display = False
@@ -181,6 +180,8 @@ class MenuAjustes(Menu):  # Creación clase menu de ajustes
             self.game.dibuja_texto('CANTIDAD DE IA', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 100)
             self.game.dibuja_texto('EFECTOS DE ENTORNOS', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
             self.game.dibuja_texto('TAMAñO DEL MAPA', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 100)
+
+            self.check.dibujar(self.game.display)
             for i in self.cajas_texto:
                 i.dibujar(self.game.display)
             self.blit_screen()
