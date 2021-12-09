@@ -6,14 +6,18 @@ class Checkbox:
     def __init__(self, pos):
         self.pos = pos
         self.activado = True
-        self.image = pygame.Surface((40, 40))
+        self.letra = pygame.font.Font(None, 55)
+        self.fondo = pygame.Surface((40, 40))
+        self.image = pygame.Surface((30, 30))
 
     def dibujar(self, display):
+        self.image.fill(datos.BLANCO)
+        self.fondo.fill(datos.NEGRO)
+        display.blit(self.fondo, self.pos)
+        display.blit(self.image, [self.pos[0]+5, self.pos[1]+5])
+        texto = self.letra.render("x", True, datos.NEGRO)
         if self.activado:
-            self.image.fill(datos.VERDE)
-        else:
-            self.image.fill(datos.ROJO)
-        display.blit(self.image, self.pos)
+            display.blit(texto, [self.pos[0] + 9, self.pos[1]])
 
     def comprueba_click(self, posicion_mouse):
         if self.pos[0] <= posicion_mouse[0] <= self.pos[0]+40 \
