@@ -207,26 +207,26 @@ class Game:  # Creación clase juego
                     datos.largo_mitad = 1280//2
                     self.__init__()
 
-                if event.key == pygame.K_SPACE and self.playing:
-                    if self.turno_act < self.cantidad_human and not self.final_del_juego():
+                if event.key == pygame.K_SPACE and self.playing and not self.final_del_juego():
+                    if self.turno_act < self.cantidad_human:
                         if (not self.mapa.tanques[self.turno_act].bala.disparado  # tiene bala en el aire
                             and self.mapa.tanques[self.turno_act].tiene_balas()) \
                                 and pygame.time.get_ticks() - self.ultimo_tiro > 500:
                             self.mapa.tanques[self.turno_act].disparar()
 
-                if event.key == pygame.K_1 and self.playing:
+                if event.key == pygame.K_1 and self.playing and not self.final_del_juego():
                     if self.turno_act < self.cantidad_human:
                         if not self.mapa.tanques[self.turno_act].bala.disparado:
                             self.mapa.tanques[self.turno_act].bala = Bala()
                             self.bala1Sound.play()
 
-                if event.key == pygame.K_2 and self.playing:
+                if event.key == pygame.K_2 and self.playing and not self.final_del_juego():
                     if self.turno_act < self.cantidad_human:
                         if not self.mapa.tanques[self.turno_act].bala.disparado:
                             self.mapa.tanques[self.turno_act].bala = Bala("perforante")
                             self.bala2Sound.play()
 
-                if event.key == pygame.K_3 and self.playing:
+                if event.key == pygame.K_3 and self.playing and not self.final_del_juego():
                     if self.turno_act < self.cantidad_human:
                         if not self.mapa.tanques[self.turno_act].bala.disparado:
                             self.mapa.tanques[self.turno_act].bala = Bala("105mm")
@@ -235,23 +235,23 @@ class Game:  # Creación clase juego
                 # mover tanque 1
                 # angulo
 
-                if event.key == pygame.K_LEFT and self.playing:
+                if event.key == pygame.K_LEFT and self.playing and not self.final_del_juego():
                     if self.turno_act < self.cantidad_human:
                         if not self.mapa.tanques[self.turno_act].bala.disparado:
                             self.mapa.tanques[self.turno_act].izq_apretar()
 
-                if event.key == pygame.K_RIGHT and self.playing:
+                if event.key == pygame.K_RIGHT and self.playing and not self.final_del_juego():
                     if self.turno_act < self.cantidad_human:
                         if not self.mapa.tanques[self.turno_act].bala.disparado:
                             self.mapa.tanques[self.turno_act].der_apretar()
 
                 # potencia
-                if event.key == pygame.K_UP and self.playing:
+                if event.key == pygame.K_UP and self.playing and not self.final_del_juego():
                     if self.turno_act < self.cantidad_human:
                         if not self.mapa.tanques[self.turno_act].bala.disparado:
                             self.mapa.tanques[self.turno_act].up_apretar()
 
-                if event.key == pygame.K_DOWN and self.playing:
+                if event.key == pygame.K_DOWN and self.playing and not self.final_del_juego():
                     if self.turno_act < self.cantidad_human:
                         if not self.mapa.tanques[self.turno_act].bala.disparado:
                             self.mapa.tanques[self.turno_act].down_apretar()
@@ -329,7 +329,6 @@ class Game:  # Creación clase juego
                 if n_tanks_vivos == 2:  # si es dos corto el bucle ya que solo importa si es mayor a 1 o no
                     break
         if n_tanks_vivos <= 1:  # nunca deberia ser menor pero por si acaso comparo menor igual
-            print("Todos muertos")
             return True
         # caso 2: no quedan balas
         for i in self.mapa.tanques:
@@ -337,7 +336,6 @@ class Game:  # Creación clase juego
                 nohaybalas = False
                 break  # con encontrar 1 tanke vivo con balas no necesito ver el resto
         if nohaybalas:
-            print("Todos sin balas")
             return True
         return False
 

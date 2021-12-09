@@ -31,7 +31,10 @@ class EntradaTxt:
 
     def dibujar(self, display):
         if self.activado:
-            self.image.fill(datos.NEGRO)
+            if self.valida():
+                self.image.fill(datos.NEGRO)
+            else:
+                self.image.fill(datos.ROJO)
             texto = self.letra.render(self.txt, True, datos.BLANCO)
         else:
             self.image.fill(datos.GRIS)
@@ -51,6 +54,8 @@ class EntradaTxt:
                 menu.Menu.insertando = False
 
     def valida(self):
+        if len(self.txt) < 1:
+            return False
         if self.tipo == 0:
             if 2 <= int(self.txt) <= 6:
                 datos.cantidad_tankes = int(self.txt)
@@ -93,16 +98,17 @@ class EntradaTxt:
             return False
 
     def agrega_texto(self, event):
-        if self.activado and (48 <= event.key <= 57 or 1073741913 <= event.key <= 1073741922):
-            self.txt += event.unicode
-        elif self.tipo == 2 and self.activado and (event.unicode == ".") and not self.punto:
-            self.punto = True
-            self.txt += event.unicode
-        elif self.activado and len(self.txt) > 0 and event.key == 8:  # borrar
-            if self.txt[-1] == ".":
-                self.punto = False
-            self.txt = self.txt[:-1]
-        elif self.activado and event.key == 13:  # enter
-            if len(self.txt) > 0 and self.valida():
-                self.activado = False
-                menu.Menu.insertando = False
+        if self.activado:
+            if (48 <= event.key <= 57 or 1073741913 <= event.key <= 1073741922) and len(self.txt) < 4:
+                self.txt += event.unicode
+            elif self.tipo == 2 and (event.unicode == ".") and not self.punto:
+                self.punto = True
+                self.txt += event.unicode
+            elif len(self.txt) > 0 and event.key == 8:  # borrar
+                if self.txt[-1] == ".":
+                    self.punto = False
+                self.txt = self.txt[:-1]
+            elif event.key == 13:  # enter
+                if len(self.txt) > 0 and self.valida():
+                    self.activado = False
+                    menu.Menu.insertando = False
