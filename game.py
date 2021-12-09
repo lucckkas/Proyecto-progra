@@ -310,7 +310,7 @@ class Game:  # Creación clase juego
             self.mapa.alturas = []
             self.mapa.crea_terreno_plano()
             self.triangulo.borrar()
-            print(len(self.ganadores()))
+            self.ganadores()
             return False
         if not self.mapa.tanques[self.turno_act].vivo():
             self.sig_turno()
@@ -342,9 +342,15 @@ class Game:  # Creación clase juego
         ganadores = []
         max_kills = -1
         for i in self.mapa.tanques:
+            i.bala = Bala()
             if i.kills > max_kills:
                 max_kills = i.kills
                 ganadores = []
             if i.kills == max_kills:
                 ganadores.append(i)
+
+        print(max_kills)
+        for i in ganadores:
+            i.life = 100
+            i.coronar()
         return ganadores

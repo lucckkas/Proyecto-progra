@@ -71,21 +71,16 @@ class Drawer:
                 if i.vivo():
                     i.sprites.draw(self.pantalla)
                     # dibujar barra de vida miniatura
-                    pygame.draw.rect(self.pantalla, datos.ROJO,
-                                     [i.getPosX() - i.getWidth() / 2, i.getPosY() - 35, i.getWidth(), 7])
-                    pygame.draw.rect(self.pantalla, datos.VERDE, [i.getPosX() - i.getWidth() / 2, i.getPosY() - 35,
+                    if i.corona not in i.sprites:
+                        pygame.draw.rect(self.pantalla, datos.ROJO,
+                                         [i.getPosX() - i.getWidth() / 2, i.getPosY() - 35, i.getWidth(), 7])
+                        pygame.draw.rect(self.pantalla, datos.VERDE, [i.getPosX() - i.getWidth() / 2, i.getPosY() - 35,
                                                              i.getWidth() * (i.life / 100), 7])
 
                     i.explosion.update(pygame.time.get_ticks())
 
                     i.mira.rect.centery = i.rect.centery - i.height / 4
                     i.mira.rect.centerx = i.rect.centerx
-                if i.life>500:
-                    i.sprites.add(i.corona)
-                    i.corona.rect.centerx=i.getPosX()
-                    i.corona.rect.centery=i.getPosY()-50
-                else:
-                    i.corona.kill()
 
         def actualizar(self,tanqueA):
             # calcular el nuemero de la centena la decena y la unidad
