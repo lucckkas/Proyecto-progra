@@ -9,6 +9,7 @@ import Boton
 import Bandera
 import IA_aleatoria
 from Bala import Bala
+from Drawer import Drawer
 
 
 class Game:  # Creación clase juego
@@ -62,6 +63,9 @@ class Game:  # Creación clase juego
         self.boton_reset = Boton.Boton("reset.png", [datos.tamagno_mapa[0] / 2, 40], [200, 60])
         self.boton_salir = Boton.Boton("salir.png", [datos.tamagno_mapa[0] / 2, 110], [200, 60])
 
+        # dibujador
+        self.dibujador = Drawer(self.mapa.tanques, self.display)
+
         # para saber cual tanque es controlado por usuario y cual por "IA"
         self.cantidad_human = datos.cantidad_tankes - datos.cantidad_IA
         self.control_tankes = []
@@ -81,7 +85,6 @@ class Game:  # Creación clase juego
         self.triangulo = Triangulo.Triangulo(self.mapa.tanques[self.turno_act].getPos())
 
         # mostrar info tank actual
-        # self.mapa.tanques[self.turno_act].Aparametros(self.display)
 
     def game_loop(self):  # Inicio loopeo
         pygame.mixer.music.play()
@@ -106,7 +109,7 @@ class Game:  # Creación clase juego
             self.mapa.dibujar_terreno(self.display, datos.NEGRO)
 
             # dibujar tanques
-            self.mapa.dibujar_tanques(self.display)
+            self.dibujador.dibujar(self.mapa.tanques[self.turno_act])
 
             # dibujar botones
             self.boton_reset.dibujar(self.display)
@@ -166,7 +169,6 @@ class Game:  # Creación clase juego
                         self.turno_act = self.turnos[0]
                         self.triangulo.mostrar = True
                         self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
-                        self.mapa.tanques[self.turno_act].Aparametros()
 
                     if self.boton_salir.click(pygame.mouse.get_pos()):
                         self.running, self.playing = False, False  # Cierra juego
@@ -187,7 +189,6 @@ class Game:  # Creación clase juego
                     self.turno_act = self.turnos[0]
                     self.triangulo.mostrar = True
                     self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
-                    self.mapa.tanques[self.turno_act].Aparametros()
 
                 if event.key == pygame.K_BACKSPACE and not menu.Menu.insertando:
                     self.BACK_KEY = True
@@ -298,7 +299,6 @@ class Game:  # Creación clase juego
                           text_rect)  # Pone el rectangulo con la imagen que contiene el texto en la imagen
 
     def sig_turno(self):
-        self.mapa.tanques[self.turno_act].Eparametros()  # borra info tank
         self.turnos.remove(self.turno_act)
         if len(self.turnos) == 0:
             self.turnos = IA_aleatoria.mezclar_lista(datos.cantidad_tankes)
@@ -314,7 +314,6 @@ class Game:  # Creación clase juego
             return False
         if not self.mapa.tanques[self.turno_act].vivo():
             self.sig_turno()
-        self.mapa.tanques[self.turno_act].Aparametros()  # muestra info nuevo tank
         self.triangulo.mover(self.mapa.tanques[self.turno_act].getPos())
         self.ultimo_tiro = pygame.time.get_ticks()
         return True
