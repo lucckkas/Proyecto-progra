@@ -155,12 +155,15 @@ class MenuAjustes(Menu):  # Creación clase menu de ajustes
     def __init__(self, game):
         super().__init__(game)
         self.cajas_texto = []
-        self.check = Checkbox.Checkbox([500, 200])
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([100, 100], datos.cantidad_tankes))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([100, 200], datos.cantidad_IA))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([100, 300], datos.GRAVEDAD_TIERRA))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([100, 400], datos.tamagno_mapa[0]))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([100, 500], datos.tamagno_mapa[1]))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 40, self.game.DISPLAY_H / 2 - 170], datos.cantidad_tankes))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 40, self.game.DISPLAY_H / 2 - 70], datos.cantidad_IA))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 140, self.game.DISPLAY_H / 2 + 30], datos.GRAVEDAD_TIERRA))
+        self.check = Checkbox.Checkbox([self.game.DISPLAY_W / 2 + 80, self.game.DISPLAY_H / 2 + 30])
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 110, self.game.DISPLAY_H / 2 + 130], datos.tamagno_mapa[0]))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 + 30, self.game.DISPLAY_H / 2 + 130], datos.tamagno_mapa[1]))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 190, self.game.DISPLAY_H / 2 + 230], datos.balas_60mm))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 40, self.game.DISPLAY_H / 2 + 230], datos.balas_perforantes))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 + 110, self.game.DISPLAY_H / 2 + 230], datos.balas_105mm))
 
     def display_menu(self):  # Muestra menu de opciones
 
@@ -180,6 +183,17 @@ class MenuAjustes(Menu):  # Creación clase menu de ajustes
             self.game.dibuja_texto('CANTIDAD DE IA', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 100)
             self.game.dibuja_texto('EFECTOS DE ENTORNOS', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2)
             self.game.dibuja_texto('TAMAñO DEL MAPA', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 100)
+            self.game.dibuja_texto('X', 20, self.game.DISPLAY_W / 2 + 5, self.game.DISPLAY_H / 2 + 150)
+            self.game.dibuja_texto('CANTIDAD DE BALAS', 20, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 200)
+
+            #Descripción
+            self.game.dibuja_texto('[ 2 a 6 ]', 12, self.game.DISPLAY_W / 2 + 90, self.game.DISPLAY_H / 2 - 150)
+            self.game.dibuja_texto('Gravedad', 12, self.game.DISPLAY_W / 2 - 200 , self.game.DISPLAY_H / 2 + 40)
+            self.game.dibuja_texto('[ 1 a 20 ]', 12, self.game.DISPLAY_W / 2 - 200, self.game.DISPLAY_H / 2 + 55)
+            self.game.dibuja_texto('Activar viento', 12, self.game.DISPLAY_W / 2 + 200, self.game.DISPLAY_H / 2 + 47)
+            self.game.dibuja_texto('balas 60mm', 10, self.game.DISPLAY_W / 2 - 150, self.game.DISPLAY_H / 2 + 280)
+            self.game.dibuja_texto('balas Perforantes', 10, self.game.DISPLAY_W / 2 , self.game.DISPLAY_H / 2 + 280)
+            self.game.dibuja_texto('balas 105mm', 10, self.game.DISPLAY_W / 2 + 150, self.game.DISPLAY_H / 2 + 280)
 
             self.check.dibujar(self.game.display)
             for i in self.cajas_texto:
