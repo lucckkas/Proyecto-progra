@@ -68,7 +68,7 @@ class Drawer:
             self.actualizar(tanqueA)
             self.sprites.draw(self.pantalla)
             for i in self.tanklist:
-                if i.vivo():
+                if i.vivo() or i.corona in i.sprites:
                     i.sprites.draw(self.pantalla)
                     # dibujar barra de vida miniatura
                     if i.corona not in i.sprites:

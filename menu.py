@@ -188,11 +188,11 @@ class MenuAjustes(Menu):  # Creación clase menu de ajustes
 
             #Descripción
             self.game.dibuja_texto('[ 2 a 6 ]', 12, self.game.DISPLAY_W / 2 + 90, self.game.DISPLAY_H / 2 - 150)
-            self.game.dibuja_texto('Gravedad', 12, self.game.DISPLAY_W / 2 - 200 , self.game.DISPLAY_H / 2 + 40)
+            self.game.dibuja_texto('Gravedad', 12, self.game.DISPLAY_W / 2 - 200, self.game.DISPLAY_H / 2 + 40)
             self.game.dibuja_texto('[ 1 a 20 ]', 12, self.game.DISPLAY_W / 2 - 200, self.game.DISPLAY_H / 2 + 55)
             self.game.dibuja_texto('Activar viento', 12, self.game.DISPLAY_W / 2 + 200, self.game.DISPLAY_H / 2 + 47)
             self.game.dibuja_texto('balas 60mm', 10, self.game.DISPLAY_W / 2 - 150, self.game.DISPLAY_H / 2 + 280)
-            self.game.dibuja_texto('balas Perforantes', 10, self.game.DISPLAY_W / 2 , self.game.DISPLAY_H / 2 + 280)
+            self.game.dibuja_texto('balas Perforantes', 10, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 + 280)
             self.game.dibuja_texto('balas 105mm', 10, self.game.DISPLAY_W / 2 + 150, self.game.DISPLAY_H / 2 + 280)
 
             self.check.dibujar(self.game.display)

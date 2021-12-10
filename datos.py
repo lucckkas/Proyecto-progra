@@ -81,7 +81,7 @@ GRIS2 = [190, 190, 190]
 
 # variables
 # terreno
-tamagno_mapa = [800, 800]
+tamagno_mapa = [820, 800]
 forma_terreno = 5
 grosor = 2
 

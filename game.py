@@ -351,6 +351,5 @@ class Game:  # Creación clase juego
 
         print(max_kills)
         for i in ganadores:
-            i.life = 100
             i.coronar()
         return ganadores
