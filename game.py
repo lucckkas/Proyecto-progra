@@ -342,6 +342,7 @@ class Game:  # Creación clase juego
         ganadores = []
         max_kills = -1
         for i in self.mapa.tanques:
+            i.life = -1
             i.bala = Bala()
             if i.kills > max_kills:
                 max_kills = i.kills

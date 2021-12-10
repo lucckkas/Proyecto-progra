@@ -4,30 +4,14 @@ import menu
 
 
 class EntradaTxt:
-    def __init__(self, pos, texto_defecto):
+    def __init__(self, pos, texto_defecto, tipo):
         self.pos = pos
         self.color_defecto = datos.GRIS
         self.activado = False
         self.letra = pygame.font.Font(None, 40)
         self.txt = str(texto_defecto)
         self.image = pygame.Surface((85, 40))
-        if texto_defecto == datos.cantidad_tankes:
-            self.tipo = 0
-        elif texto_defecto == datos.cantidad_IA:
-            self.tipo = 1
-        elif texto_defecto == datos.GRAVEDAD_TIERRA:
-            self.punto = True
-            self.tipo = 2
-        elif texto_defecto == datos.tamagno_mapa[0]:
-            self.tipo = 3
-        elif texto_defecto == datos.tamagno_mapa[1]:
-            self.tipo = 4
-        elif texto_defecto == datos.balas_60mm:
-            self.tipo = 5
-        elif texto_defecto == datos.balas_perforantes:
-            self.tipo = 6
-        elif texto_defecto == datos.balas_105mm:
-            self.tipo = 7
+        self.tipo = tipo
 
     def dibujar(self, display):
         if self.activado:

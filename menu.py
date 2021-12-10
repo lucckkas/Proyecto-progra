@@ -155,15 +155,15 @@ class MenuAjustes(Menu):  # Creación clase menu de ajustes
     def __init__(self, game):
         super().__init__(game)
         self.cajas_texto = []
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 40, self.game.DISPLAY_H / 2 - 170], datos.cantidad_tankes))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 40, self.game.DISPLAY_H / 2 - 70], datos.cantidad_IA))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 140, self.game.DISPLAY_H / 2 + 30], datos.GRAVEDAD_TIERRA))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 40, self.game.DISPLAY_H / 2 - 170], datos.cantidad_tankes, 0))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 40, self.game.DISPLAY_H / 2 - 70], datos.cantidad_IA, 1))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 140, self.game.DISPLAY_H / 2 + 30], datos.GRAVEDAD_TIERRA, 2))
         self.check = Checkbox.Checkbox([self.game.DISPLAY_W / 2 + 80, self.game.DISPLAY_H / 2 + 30])
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 110, self.game.DISPLAY_H / 2 + 130], datos.tamagno_mapa[0]))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 + 30, self.game.DISPLAY_H / 2 + 130], datos.tamagno_mapa[1]))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 190, self.game.DISPLAY_H / 2 + 230], datos.balas_60mm))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 40, self.game.DISPLAY_H / 2 + 230], datos.balas_perforantes))
-        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 + 110, self.game.DISPLAY_H / 2 + 230], datos.balas_105mm))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 110, self.game.DISPLAY_H / 2 + 130], datos.tamagno_mapa[0], 3))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 + 30, self.game.DISPLAY_H / 2 + 130], datos.tamagno_mapa[1], 4))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 190, self.game.DISPLAY_H / 2 + 230], datos.balas_60mm, 5))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 - 40, self.game.DISPLAY_H / 2 + 230], datos.balas_perforantes, 6))
+        self.cajas_texto.append(EntradaTxt.EntradaTxt([self.game.DISPLAY_W / 2 + 110, self.game.DISPLAY_H / 2 + 230], datos.balas_105mm, 7))
 
     def display_menu(self):  # Muestra menu de opciones
 
